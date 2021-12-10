@@ -10,6 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SOS">
         <activity
+            android:name=".UserStoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SprintActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AgendaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
