@@ -7,12 +7,66 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tv_mainActivity_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="97dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="276dp"
+        android:text="Log in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_mainActivity_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="172dp"
+        android:text="mail :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_mainActivity_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="141dp"
+        android:text="password :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mainActivity_mail" />
+
+    <EditText
+        android:id="@+id/et_mainActivity_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="89dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toEndOf="@+id/tv_mainActivity_password"
+        app:layout_constraintTop_toBottomOf="@+id/et_mainActivity_mail" />
+
+    <EditText
+        android:id="@+id/et_mainActivity_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="172dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toEndOf="@+id/tv_mainActivity_mail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_mainActivity_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="92dp"
+        android:text="Submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_mainActivity_password" />
 </androidx.constraintlayout.widget.ConstraintLayout>
