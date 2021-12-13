@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 .getAll().enqueue(new Callback<List<DtoUser>>() {
                     @Override
                     public void onResponse(Call<List<DtoUser>> call, Response<List<DtoUser>> response) {
+                        //Log.i("findproblem", response.toString());
                         if(response.code() == 200) {
                             Log.i("test", String.valueOf(response.body()));
                         }
