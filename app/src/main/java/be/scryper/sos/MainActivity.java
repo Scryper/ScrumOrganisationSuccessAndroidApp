@@ -4,13 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import be.scryper.sos.dto.DtoUser;
+import be.scryper.sos.infrastructure.Retrofit;
+import be.scryper.sos.infrastructure.repositories.IUserRepository;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mail;
@@ -25,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         mail = findViewById(R.id.et_mainActivity_mail);
         password = findViewById(R.id.et_mainActivity_password);
         btnConnect = findViewById(R.id.btn_mainActivity_submit);
+
+        test();
 
         btnConnect.setOnClickListener(view -> {
             String mailString = mail.getText().toString();
@@ -44,5 +52,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void test() {
+        Retrofit.getInstance().create(IUserRepository.class)
+                .getAll().enqueue(new Callback<List<DtoUser>>() {
+                    @Override
+                    public void onResponse(Call<List<DtoUser>> call, Response<List<DtoUser>> response) {
+                        if(response.code() == 200) {
+                            Log.i("test", String.valueOf(response.body()));
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<List<DtoUser>> call, Throwable t) {
+                        Log.e("error", t.toString());
+                    }
+                });
+    }
 }
