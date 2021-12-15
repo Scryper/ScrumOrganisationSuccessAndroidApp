@@ -1,5 +1,6 @@
 package be.scryper.sos.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class DtoUser {
@@ -9,10 +10,10 @@ public class DtoUser {
     private String password;
     private String email;
     private int role;
-    private Date birthdate;
+    private String birthdate;
 
     // Constructor
-    public DtoUser(int id, String firstname, String lastname, String password, String email, int role, Date birthdate) {
+    public DtoUser(int id, String firstname, String lastname, String password, String email, int role, String birthdate) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -85,11 +86,11 @@ public class DtoUser {
         this.role = role;
     }
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 }

@@ -16,6 +16,9 @@ public interface IUserRepository {
     @GET("users")
     Call<List<DtoUser>> getAll();
 
+    @GET("users/{id}")
+    Call<DtoUser> getById(@Path("id") int id);
+
     // Post requests
     @POST("users")
     Call<DtoUser> addUser(@Body DtoUser user);
