@@ -13,10 +13,10 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import be.scryper.sos.R;
-import be.scryper.sos.domain.Comment;
+import be.scryper.sos.dto.DtoComment;
 
-public class CommentArrayAdapter extends ArrayAdapter<Comment> {
-    public CommentArrayAdapter(@NonNull Context context, @NonNull List<Comment> objects) {
+public class CommentArrayAdapter extends ArrayAdapter<DtoComment> {
+    public CommentArrayAdapter(@NonNull Context context, @NonNull List<DtoComment> objects) {
         super(context, 0, objects);
     }
 
@@ -27,17 +27,17 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.comment_list_item, null);
         }
 
-        Comment comment = getItem(position);
+        DtoComment comment = getItem(position);
         populateView(comment, convertView);
 
         return convertView;
     }
 
-    private void populateView(Comment comment, View convertView) {
+    private void populateView(DtoComment comment, View convertView) {
         TextView tvContent = convertView.findViewById(R.id.tv_listItemComment_ph_content);
-        TextView tvDate = convertView.findViewById(R.id.tv_listeItemComment_ph_date);
+        TextView tvPostedAt = convertView.findViewById(R.id.tv_listeItemComment_ph_postedAt);
 
-        tvContent.setText(comment.getTexte());
-        tvDate.setText(String.valueOf(comment.getDate()));
+        tvContent.setText(comment.getContent());
+        tvPostedAt.setText(String.valueOf(comment.getPostedAt()));
     }
 }

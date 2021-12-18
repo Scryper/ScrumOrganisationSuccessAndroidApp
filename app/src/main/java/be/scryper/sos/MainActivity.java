@@ -4,21 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
+import java.io.IOException;
 
-import be.scryper.sos.dto.DtoUser;
+import be.scryper.sos.dto.DtoAuthenticateRequest;
+import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.infrastructure.Retrofit;
-import be.scryper.sos.infrastructure.repositories.IUserRepository;
+import be.scryper.sos.infrastructure.IUserRepository;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String KEY_LOGIN = "authenticateResult";
+
     private TextView mail;
     private TextView password;
     private Button btnConnect;
@@ -28,44 +31,53 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         mail = findViewById(R.id.et_mainActivity_mail);
         password = findViewById(R.id.et_mainActivity_password);
         btnConnect = findViewById(R.id.btn_mainActivity_submit);
+        mail.setText("la199788@student.helha.be");
+        password.setText("myneck");
 
-        test();
 
         btnConnect.setOnClickListener(view -> {
-            String mailString = mail.getText().toString();
-            String passwordString = password.getText().toString();
-            String value = mailString + " : " + passwordString;
-            if(passwordString.equals("a") && mailString.equals("a")){
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-            else{
-                Toast.makeText(
-                        getApplicationContext(),
-                        value,
-                        Toast.LENGTH_LONG
-                ).show();
-            }
+            authenticate(new DtoAuthenticateRequest(mail.getText().toString(), password.getText().toString()));
         });
     }
 
-    private void test() {
+    private void authenticate(DtoAuthenticateRequest authentication) {
+
         Retrofit.getInstance().create(IUserRepository.class)
-                .getAll().enqueue(new Callback<List<DtoUser>>() {
+                .authenticate(authentication).enqueue(new Callback<DtoAuthenticateResult>() {
                     @Override
-                    public void onResponse(Call<List<DtoUser>> call, Response<List<DtoUser>> response) {
+                    public void onResponse(Call<DtoAuthenticateResult> call, Response<DtoAuthenticateResult> response) {
                         //Log.i("findproblem", response.toString());
                         if(response.code() == 200) {
-                            Log.i("test", String.valueOf(response.body()));
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            DtoAuthenticateResult authenticateResult = response.body();
+                            intent.putExtra(KEY_LOGIN, (Parcelable) authenticateResult);
+                            startActivity(intent);
+                        }
+                        else{
+                            try {
+                                Toast.makeText(
+                                        getApplicationContext(),
+                                        response.errorBody().string(),
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<DtoUser>> call, Throwable t) {
-                        Log.e("error", t.toString());
+                    public void onFailure(Call<DtoAuthenticateResult> call, Throwable t) {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                t.toString(),
+                                Toast.LENGTH_LONG
+                        ).show();
                     }
                 });
     }

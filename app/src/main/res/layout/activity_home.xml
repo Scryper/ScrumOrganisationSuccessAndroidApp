@@ -6,38 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="330dp"
-        android:layout_marginEnd="193dp"
-        android:text="TRUC"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/btn_homeActivity_project"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="49dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="178dp"
         android:text="Project"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_homeActivity_ph_firstname" />
 
     <Button
         android:id="@+id/btn_homeActivity_agenda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="91dp"
-        android:layout_marginTop="429dp"
+        android:layout_marginTop="201dp"
         android:layout_marginEnd="75dp"
         android:text="Agenda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_homeActivity_project"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_homeActivity_ph_role" />
+
+    <TextView
+        android:id="@+id/tv_homeActivity_ph_lastname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:text="Placeholder lastname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_homeActivity_log" />
+
+    <ImageView
+        android:id="@+id/iv_homeActivity_log"
+        android:layout_width="307dp"
+        android:layout_height="155dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="52dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logosos2_blanc_plan_de_travail_2" />
+
+    <TextView
+        android:id="@+id/tv_homeActivity_ph_firstname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="18dp"
+        android:text="Placeholder firstname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_homeActivity_ph_lastname" />
+
+    <TextView
+        android:id="@+id/tv_homeActivity_ph_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="107dp"
+        android:layout_marginTop="54dp"
+        android:text="Placeholder role"
+        app:layout_constraintStart_toEndOf="@+id/tv_homeActivity_ph_lastname"
+        app:layout_constraintTop_toBottomOf="@+id/iv_homeActivity_log" />
 </androidx.constraintlayout.widget.ConstraintLayout>

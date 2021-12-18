@@ -13,12 +13,11 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import be.scryper.sos.R;
-import be.scryper.sos.SprintActivity;
-import be.scryper.sos.domain.Sprint;
+import be.scryper.sos.dto.DtoSprint;
 
-public class SprintArrayAdapter extends ArrayAdapter<Sprint> {
+public class SprintArrayAdapter extends ArrayAdapter<DtoSprint> {
 
-    public SprintArrayAdapter(@NonNull Context context, @NonNull List<Sprint> objects) {
+    public SprintArrayAdapter(@NonNull Context context, @NonNull List<DtoSprint> objects) {
         super(context, 0, objects);
     }
 
@@ -29,13 +28,13 @@ public class SprintArrayAdapter extends ArrayAdapter<Sprint> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.sprint_list_item, null);
         }
 
-        Sprint sprint = getItem(position);
+        DtoSprint sprint = getItem(position);
         populateView(sprint, convertView);
 
         return convertView;
     }
 
-    private void populateView(Sprint sprint, View convertView) {
+    private void populateView(DtoSprint sprint, View convertView) {
         TextView tvId = convertView.findViewById(R.id.tv_listItemSprint_ph_id);
         TextView tvDescription = convertView.findViewById(R.id.tv_listItemSprint_ph_description);
 

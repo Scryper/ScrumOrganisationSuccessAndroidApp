@@ -6,34 +6,63 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
 import java.util.TimeZone;
+
+import be.scryper.sos.dto.DtoAuthenticateResult;
 
 public class HomeActivity extends AppCompatActivity {
     private static final int CALENDAR_PERMISSION_CODE = 100;
+
     private Button btnProject;
     private Button btnAgenda;
+    private TextView tvFirstname;
+    private TextView tvLastname;
+    private TextView tvRole;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         btnProject = findViewById(R.id.btn_homeActivity_project);
         btnAgenda = findViewById(R.id.btn_homeActivity_agenda);
+        tvFirstname = findViewById(R.id.tv_homeActivity_ph_firstname);
+        tvLastname = findViewById(R.id.tv_homeActivity_ph_lastname);
+        tvRole = findViewById(R.id.tv_homeActivity_ph_role);
+
+        DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
+
+        tvFirstname.setText(authenticateResult.getFirstname());
+        tvLastname.setText(authenticateResult.getLastname());
+
+        switch (authenticateResult.getRole()){
+            case 1:
+                tvRole.setText("Developer");
+                break;
+
+            case 2:
+                tvRole.setText("Scrum Master");
+                break;
+
+            default:
+                tvRole.setText("Product Owner");
+
+        }
 
         btnProject.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);
+            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+
             startActivity(intent);
         });
         btnAgenda.setOnClickListener(view -> {
