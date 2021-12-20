@@ -68,4 +68,14 @@
         android:text="Placeholder role"
         app:layout_constraintStart_toEndOf="@+id/tv_homeActivity_ph_lastname"
         app:layout_constraintTop_toBottomOf="@+id/iv_homeActivity_log" />
+
+    <Button
+        android:id="@+id/btn_homeActivity_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="44dp"
+        android:text="Profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_homeActivity_agenda" />
 </androidx.constraintlayout.widget.ConstraintLayout>

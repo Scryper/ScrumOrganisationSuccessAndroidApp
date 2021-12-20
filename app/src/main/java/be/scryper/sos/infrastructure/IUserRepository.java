@@ -4,6 +4,7 @@ import java.util.List;
 
 import be.scryper.sos.dto.DtoAuthenticateRequest;
 import be.scryper.sos.dto.DtoAuthenticateResult;
+import be.scryper.sos.dto.DtoInputUser;
 import be.scryper.sos.dto.DtoUser;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -29,8 +30,8 @@ public interface IUserRepository {
     Call<DtoAuthenticateResult> authenticate(@Body DtoAuthenticateRequest authentication);
 
     // Put requests
-    @PUT("users/roleUpdate/{idForRoleUpdate}")
-    Call<Void> update(@Path("idForRoleUpdate") int id, @Body DtoUser user);
+    @PUT("users/firstNameLastNameUpdate/{idForFirstNameLastNameUpdate}")
+    Call<Void> updateFirstnameLastname(@Path("idForFirstNameLastNameUpdate") int id, @Body DtoInputUser user);
 
     // Delete requests
     @DELETE("users/{id}")

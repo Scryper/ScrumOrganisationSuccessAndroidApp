@@ -27,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private Button btnProject;
     private Button btnAgenda;
+    private Button btnProfile;
     private TextView tvFirstname;
     private TextView tvLastname;
     private TextView tvRole;
@@ -36,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         btnProject = findViewById(R.id.btn_homeActivity_project);
         btnAgenda = findViewById(R.id.btn_homeActivity_agenda);
+        btnProfile = findViewById(R.id.btn_homeActivity_profile);
         tvFirstname = findViewById(R.id.tv_homeActivity_ph_firstname);
         tvLastname = findViewById(R.id.tv_homeActivity_ph_lastname);
         tvRole = findViewById(R.id.tv_homeActivity_ph_role);
@@ -65,6 +67,14 @@ public class HomeActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
+        btnProfile.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+
+            startActivity(intent);
+        });
+
         btnAgenda.setOnClickListener(view -> {
             String EVENT_BEGIN_TIME_IN_MILLIS = "1639663607000";
             String EVENT_END_TIME_IN_MILLIS = "1639750007000";
