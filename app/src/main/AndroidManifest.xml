@@ -15,9 +15,11 @@
         android:theme="@style/Theme.SOS"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ProfileActivity"
+            android:name=".MeetingActivity"
             android:exported="false" />
-        <!-- A CHANGER  usesClearTextTraffic=> C'EST POUR LE DEV -->
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" /> <!-- A CHANGER  usesClearTextTraffic=> C'EST POUR LE DEV -->
         <activity
             android:name=".UserStoryActivity"
             android:exported="false" />

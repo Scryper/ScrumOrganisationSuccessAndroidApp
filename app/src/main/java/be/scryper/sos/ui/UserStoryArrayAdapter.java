@@ -38,7 +38,22 @@ public class UserStoryArrayAdapter extends ArrayAdapter<DtoUserStory> {
     private void populateView(DtoUserStory userStory, View convertView) {
         TextView tvName = convertView.findViewById(R.id.tv_listItemUserStory_ph_name);
         TextView tvDescription = convertView.findViewById(R.id.tv_listItemUserStory_ph_description);
-        //convertView.setBackgroundColor(Color.parseColor("#FCD5B5"));
+        String color;
+        switch(userStory.getPriority()){
+            case 1:
+                color = "#ab0926";
+                break;
+            case 2:
+                color = "#bf5f1f";
+                break;
+            case 3:
+                color = "#d4c133";
+                break;
+            default:
+                color = "#67a82d";
+
+        }
+        convertView.setBackgroundColor(Color.parseColor(color));
 
         tvName.setText(userStory.getName());
         tvDescription.setText(userStory.getDescription());

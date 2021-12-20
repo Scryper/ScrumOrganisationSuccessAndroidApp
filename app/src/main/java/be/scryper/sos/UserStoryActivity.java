@@ -3,11 +3,14 @@ package be.scryper.sos;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +40,7 @@ public class UserStoryActivity extends AppCompatActivity {
     private ListView lvSimple;
     private TextView tvName;
     private TextView tvDescription;
-    private TextView tvNewComment;
+    private EditText tvNewComment;
     private Button btnAddComment;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -60,13 +63,22 @@ public class UserStoryActivity extends AppCompatActivity {
         getComments(userStory.getId());
 
         btnAddComment.setOnClickListener(view -> {
+            String content = tvNewComment.getText().toString();
+
+            if(content.matches("")){
+                Toast.makeText(
+                        getApplicationContext(),
+                        "can't send empty comment",
+                        Toast.LENGTH_LONG
+                ).show();
+
+                return;
+            }
             int idUserStory = userStory.getId();
             int idUser = authenticateResult.getId();
 
             LocalDateTime postedAt = LocalDateTime.now();
-            postedAt = postedAt.truncatedTo(ChronoUnit.SECONDS);
             String tmp = postedAt.toString();
-            String content = tvNewComment.getText().toString();
             DtoCreateComment newComment = new DtoCreateComment(idUserStory, idUser, tmp, content);
             Retrofit.getInstance().create(ICommentRepository.class)
                     .create(newComment).enqueue(new Callback<DtoComment>() {
@@ -80,6 +92,9 @@ public class UserStoryActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG
                         ).show();
                         getComments(idUserStory);
+                        tvNewComment.getText().clear();
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(btnAddComment.getWindowToken(), 0);
                     } else {
                             Toast.makeText(
                                     getApplicationContext(),

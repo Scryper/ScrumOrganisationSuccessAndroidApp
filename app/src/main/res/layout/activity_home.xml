@@ -78,4 +78,14 @@
         android:text="Profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_homeActivity_agenda" />
+
+    <Button
+        android:id="@+id/btn_homeActivity_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="92dp"
+        android:text="Meeting"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_homeActivity_ph_firstname" />
 </androidx.constraintlayout.widget.ConstraintLayout>
