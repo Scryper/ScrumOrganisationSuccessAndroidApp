@@ -25,9 +25,6 @@
             android:name=".SprintActivity"
             android:exported="false" />
         <activity
-            android:name=".AgendaActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProjectActivity"
             android:exported="false" />
         <activity

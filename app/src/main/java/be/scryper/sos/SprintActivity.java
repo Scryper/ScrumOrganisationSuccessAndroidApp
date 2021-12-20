@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,14 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
-import be.scryper.sos.dto.DtoDeveloperProject;
-import be.scryper.sos.dto.DtoProject;
 import be.scryper.sos.dto.DtoSprint;
 import be.scryper.sos.dto.DtoSprintUserStory;
 import be.scryper.sos.dto.DtoUserStory;
-import be.scryper.sos.infrastructure.IDeveloperProjectRepository;
-import be.scryper.sos.infrastructure.IProjectRepository;
-import be.scryper.sos.infrastructure.ISprintRepository;
 import be.scryper.sos.infrastructure.ISprintUserStoryRepository;
 import be.scryper.sos.infrastructure.IUserStoryRepository;
 import be.scryper.sos.infrastructure.Retrofit;

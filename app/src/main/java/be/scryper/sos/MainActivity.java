@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
                 .authenticate(authentication).enqueue(new Callback<DtoAuthenticateResult>() {
                     @Override
                     public void onResponse(Call<DtoAuthenticateResult> call, Response<DtoAuthenticateResult> response) {
-                        //Log.i("findproblem", response.toString());
+                        //Log.i("Todo", response.toString());
+
                         if(response.code() == 200) {
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             DtoAuthenticateResult authenticateResult = response.body();

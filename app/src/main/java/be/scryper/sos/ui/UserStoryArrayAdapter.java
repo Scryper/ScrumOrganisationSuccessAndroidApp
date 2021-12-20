@@ -1,6 +1,7 @@
 package be.scryper.sos.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class UserStoryArrayAdapter extends ArrayAdapter<DtoUserStory> {
     private void populateView(DtoUserStory userStory, View convertView) {
         TextView tvName = convertView.findViewById(R.id.tv_listItemUserStory_ph_name);
         TextView tvDescription = convertView.findViewById(R.id.tv_listItemUserStory_ph_description);
+        //convertView.setBackgroundColor(Color.parseColor("#FCD5B5"));
 
         tvName.setText(userStory.getName());
         tvDescription.setText(userStory.getDescription());

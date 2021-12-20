@@ -12,7 +12,7 @@ public class DtoAuthenticateRequest {
 
     @Override
     public String toString() {
-        return "DtoAuthenticate{" +
+        return "DtoAuthenticateRequest{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
