@@ -17,9 +17,7 @@
         <activity
             android:name=".MeetingActivity"
             android:exported="false" />
-        <activity
-            android:name=".ProfileActivity"
-            android:exported="false" /> <!-- A CHANGER  usesClearTextTraffic=> C'EST POUR LE DEV -->
+        <!-- A CHANGER  usesClearTextTraffic=> C'EST POUR LE DEV -->
         <activity
             android:name=".UserStoryActivity"
             android:exported="false" />
