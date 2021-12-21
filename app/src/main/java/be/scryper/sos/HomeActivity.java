@@ -1,14 +1,20 @@
 package be.scryper.sos;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,6 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
+    private static final int ALARME_CODE = 100;
 
     private Button btnProject;
     private Button btnMeeting;
@@ -50,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
 
         getMeetings(authenticateResult.getId());
 
+
     }
 
     public void initUI(){
@@ -65,6 +73,22 @@ public class HomeActivity extends AppCompatActivity {
         );
 
         lvDailyMeetings.setAdapter(adapter);
+
+        lvDailyMeetings.setOnItemClickListener((adapterView, view, i, l)->{
+            ///add un pop up pour te demander si tu veux ajouter une alarme a xx:xx
+
+
+
+
+
+            //oui=>
+
+
+            //checkPermission(Manifest.permission.SET_ALARM,ALARME_CODE);
+            //Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+            //intent.putExtra(AlarmClock.EXTRA_MINUTES,1);
+            //startActivity(intent);
+        });
     }
 
     public void initOnCLickListeners(){
@@ -116,8 +140,38 @@ public class HomeActivity extends AppCompatActivity {
                 Log.e("dotni", t.toString());
             }
         });
+    }
 
+    public void checkPermission(String permission, int requestCode)
+    {
+        // Checking if permission is not granted
+        if (ContextCompat.checkSelfPermission(HomeActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, new String[] { permission }, requestCode);
+            Log.e("dotni","jisipa pq jsuis al");
+        }
+        else {
+            Toast.makeText(HomeActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        super.
+                onRequestPermissionsResult(requestCode,
+                        permissions,
+                        grantResults);
+
+        if (requestCode == ALARME_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(HomeActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT) .show();
+            }
+            else {
+                Toast.makeText(HomeActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT) .show();
+            }
+        }
     }
 
 
