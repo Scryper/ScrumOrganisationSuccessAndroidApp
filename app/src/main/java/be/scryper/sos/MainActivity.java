@@ -1,6 +1,7 @@
 package be.scryper.sos;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         mail = findViewById(R.id.et_mainActivity_mail);
         password = findViewById(R.id.et_mainActivity_password);
@@ -75,8 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<DtoAuthenticateResult> call, Throwable t) {
-                        Log.e("dotni",t.toString());
-                        Log.e("dotni", call.toString());
+                        Toast.makeText(
+                                getApplicationContext(),
+                                call.request().toString(),
+                                Toast.LENGTH_LONG
+                        ).show();
                     }
                 });
     }

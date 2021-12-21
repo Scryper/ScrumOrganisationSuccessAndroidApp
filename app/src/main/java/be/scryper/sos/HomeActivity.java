@@ -6,27 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoInputMeeting;
 import be.scryper.sos.dto.DtoMeeting;
-import be.scryper.sos.dto.DtoProject;
 import be.scryper.sos.infrastructure.IMeetingRepository;
-import be.scryper.sos.infrastructure.IProjectRepository;
 import be.scryper.sos.infrastructure.Retrofit;
-import be.scryper.sos.ui.MeetingArrayAdapter;
-import be.scryper.sos.ui.SprintArrayAdapter;
+import be.scryper.sos.ui.TodayMeetingArrayAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private DtoAuthenticateResult authenticateResult;
 
-    private MeetingArrayAdapter adapter;
+    private TodayMeetingArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,17 +91,12 @@ public class HomeActivity extends AppCompatActivity {
         lvDailyMeetings = findViewById(R.id.lv_homeActivity_Meetings);
         tvHello.setText("Hello " + authenticateResult.getFirstname());
 
-        adapter = new MeetingArrayAdapter(
-                getApplicationContext(),
+        adapter = new TodayMeetingArrayAdapter(
+                this,
                 new ArrayList<DtoMeeting>()
         );
 
         lvDailyMeetings.setAdapter(adapter);
-
-        //requete pour récup les meetings
-
-        //inflate la list view pour chaque meeting du jour
-
     }
 
     public void initOnCLickListeners(){
@@ -142,6 +130,7 @@ public class HomeActivity extends AppCompatActivity {
                         DtoMeeting dtoFinal;
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             LocalDateTime test = LocalDateTime.parse(dto.get(i).getSchedule());
+                            Log.e("dotni", test.toString());
                             if(test.getDayOfYear() == LocalDateTime.now().getDayOfYear()&& test.getYear() == LocalDateTime.now().getYear()){
                                 dtoFinal = DtoMeeting.combine(dto.get(i),test);
 
@@ -163,23 +152,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        /*Retrofit.getInstance().create(IMeetingRepository.class).getById(1).enqueue(new Callback<DtoInputMeeting>() {
-            @Override
-            public void onResponse(Call<DtoInputMeeting> call, Response<DtoInputMeeting> response) {
-                Log.e("dotni",response.body().toString());
-                DtoInputMeeting dto = response.body();
-                String str = dto.getSchedule();
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    LocalDateTime test = LocalDateTime.parse(str);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<DtoInputMeeting> call, Throwable t) {
-                Log.e("dotni", call.request().url().toString());
-                Log.e("dotni", t.toString());
-            }
-        });*/
     }
 
 

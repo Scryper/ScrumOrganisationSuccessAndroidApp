@@ -13,7 +13,8 @@ import okhttp3.OkHttpClient;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Retrofit {
-    private static final String BASE_URL = "https://10.0.2.2:5001/api/";
+    //private static final String BASE_URL = "https://10.0.2.2:5001/api/";
+    private static final String BASE_URL = "http://10.2.32.28:5000/api/";
     private static retrofit2.Retrofit instance;
 
     public static retrofit2.Retrofit getInstance() {
