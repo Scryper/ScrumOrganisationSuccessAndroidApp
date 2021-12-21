@@ -25,19 +25,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
-import be.scryper.sos.dto.DtoComment;
-import be.scryper.sos.dto.DtoCreateComment;
 import be.scryper.sos.dto.DtoInputMeeting;
 import be.scryper.sos.dto.DtoMeeting;
-import be.scryper.sos.infrastructure.ICommentRepository;
 import be.scryper.sos.infrastructure.IMeetingRepository;
 import be.scryper.sos.infrastructure.Retrofit;
 import be.scryper.sos.ui.TodayMeetingArrayAdapter;
@@ -64,7 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
+        authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         initUI();
 
@@ -108,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
     public void initOnCLickListeners(){
         btnProject.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);
-            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+            intent.putExtra(LoginActivity.KEY_LOGIN, authenticateResult);
 
             startActivity(intent);
         });
@@ -116,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
 
         btnMeeting.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, MeetingActivity.class);
-            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+            intent.putExtra(LoginActivity.KEY_LOGIN, authenticateResult);
 
             startActivity(intent);
         });

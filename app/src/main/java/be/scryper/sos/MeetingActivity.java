@@ -1,6 +1,5 @@
 package be.scryper.sos;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import be.scryper.sos.dto.DtoMeeting;
 import be.scryper.sos.infrastructure.IMeetingRepository;
 import be.scryper.sos.infrastructure.Retrofit;
 import be.scryper.sos.ui.MeetingArrayAdapter;
-import be.scryper.sos.ui.TodayMeetingArrayAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +40,7 @@ public class MeetingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting);
 
-        authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
+        authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         initUI();
 

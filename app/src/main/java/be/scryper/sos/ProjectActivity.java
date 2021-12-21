@@ -39,7 +39,7 @@ public class ProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_project);
 
 
-        DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
+        DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         getDeveloperProject(authenticateResult);
 
@@ -139,10 +139,10 @@ public class ProjectActivity extends AppCompatActivity {
         lvSimple.setAdapter(adapter);
         lvSimple.setOnItemClickListener((adapterView, view, i, l) -> {
             DtoSprint sprint = (DtoSprint) adapterView.getItemAtPosition(i);
-            DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
+            DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
             Intent intent = new Intent(ProjectActivity.this, SprintActivity.class);
             intent.putExtra(KEY_SPRINT, (Parcelable) sprint);
-            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+            intent.putExtra(LoginActivity.KEY_LOGIN, authenticateResult);
             intent.putExtra(KEY_PROJECT, projectName);
 
             startActivity(intent);

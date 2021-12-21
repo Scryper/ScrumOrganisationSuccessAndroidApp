@@ -147,11 +147,11 @@ public class SprintActivity extends AppCompatActivity {
 
         lvSimple.setOnItemClickListener((adapterView, view, i, l) -> {
             DtoUserStory userStory = (DtoUserStory) adapterView.getItemAtPosition(i);
-            DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
+            DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
             Intent intent = new Intent(SprintActivity.this, UserStoryActivity.class);
             intent.putExtra(KEY_USER_STORY, userStory);
-            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+            intent.putExtra(LoginActivity.KEY_LOGIN, authenticateResult);
 
             startActivity(intent);
         });
