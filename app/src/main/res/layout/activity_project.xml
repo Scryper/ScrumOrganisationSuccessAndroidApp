@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ProjectActivity_sprintList"
+        app:layout_constraintTop_toBottomOf="@+id/tv_projectActivity_sprintList"
         app:layout_constraintVertical_bias="0.202">
 
     </ListView>
@@ -31,7 +31,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ProjectActivity_yourProject" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_projectActivity_yourProject" />
 
     <TextView
         android:id="@+id/tv_projectActivity_ph_description"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_projectActivity_ph_name" />
 
     <TextView
-        android:id="@+id/tv_ProjectActivity_yourProject"
+        android:id="@+id/tv_projectActivity_yourProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_ProjectActivity_sprintList"
+        android:id="@+id/tv_projectActivity_sprintList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

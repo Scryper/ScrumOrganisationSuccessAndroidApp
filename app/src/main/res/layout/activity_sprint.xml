@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tv_sprintActivity_description"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ActivitySprint_ProjectTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_sprintActivity_ProjectTitle" />
 
     <TextView
         android:id="@+id/tv_sprintActivity_description"
@@ -27,10 +27,10 @@
         android:layout_marginTop="4dp"
         android:text="Description :"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ActivitySprint_ProjectTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_sprintActivity_ProjectTitle" />
 
     <TextView
-        android:id="@+id/tv_ActivitySprint_ProjectTitle"
+        android:id="@+id/tv_sprintActivity_ProjectTitle"
         android:layout_width="278dp"
         android:layout_height="24dp"
         android:layout_marginTop="20dp"
@@ -38,8 +38,8 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.937"
-        app:layout_constraintStart_toEndOf="@+id/tv_ActivitySprint_SprintFrom"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ActivitySprint_Title" />
+        app:layout_constraintStart_toEndOf="@+id/tv_sprintActivity_SprintFrom"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sprintActivity_Title" />
 
     <ListView
         android:id="@+id/lv_sprintActivity_simpleList"
@@ -50,13 +50,13 @@
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
+        app:layout_constraintTop_toBottomOf="@+id/tv_sprintActivity_userStories">
 
 
     </ListView>
 
     <TextView
-        android:id="@+id/tv_ActivitySprint_Title"
+        android:id="@+id/tv_sprintActivity_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -69,7 +69,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_ActivitySprint_SprintFrom"
+        android:id="@+id/tv_sprintActivity_SprintFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tv_sprintActivity_userStories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

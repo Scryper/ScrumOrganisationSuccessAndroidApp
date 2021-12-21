@@ -71,10 +71,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void initUI(){
-        btnProject = findViewById(R.id.btn_homeActivity_Projet);
-        btnMeeting = findViewById(R.id.btn_homeActivity_Meeting);
-        tvHello = findViewById(R.id.tv_homeActivity_Bonjour);
-        lvDailyMeetings = findViewById(R.id.lv_homeActivity_Meetings);
+        btnProject = findViewById(R.id.btn_homeActivity_project);
+        btnMeeting = findViewById(R.id.btn_homeActivity_meeting);
+        tvHello = findViewById(R.id.tv_homeActivity_bonjour);
+        lvDailyMeetings = findViewById(R.id.lv_homeActivity_meetings);
         tvHello.setText("Hello " + authenticateResult.getFirstname());
 
         adapter = new TodayMeetingArrayAdapter(

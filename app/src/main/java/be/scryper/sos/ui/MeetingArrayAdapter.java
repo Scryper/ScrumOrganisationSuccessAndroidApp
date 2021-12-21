@@ -38,8 +38,8 @@ public class MeetingArrayAdapter extends ArrayAdapter<DtoMeeting> {
 
     private void populateView(DtoMeeting meeting, View convertView) {
 
-        TextView tvDate = convertView.findViewById(R.id.tv_meeting_date);
-        TextView tvDescription = convertView.findViewById(R.id.tv_meeting_description);
+        TextView tvDate = convertView.findViewById(R.id.tv_listViewMeeting_ph_date);
+        TextView tvDescription = convertView.findViewById(R.id.tv_listViewMeeting_ph_description);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tvDate.setText(meeting.getSchedule().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));

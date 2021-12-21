@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_loginActivity_title" />
 
     <EditText
         android:id="@+id/et_mainActivity_password"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_mainActivity_password" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_loginActivity_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
