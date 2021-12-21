@@ -1,94 +1,69 @@
 package be.scryper.sos;
 
-import android.Manifest;
-import android.content.ContentValues;
-import android.content.Context;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.TimeZone;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
+import be.scryper.sos.dto.DtoInputMeeting;
+import be.scryper.sos.dto.DtoMeeting;
+import be.scryper.sos.dto.DtoProject;
+import be.scryper.sos.infrastructure.IMeetingRepository;
+import be.scryper.sos.infrastructure.IProjectRepository;
+import be.scryper.sos.infrastructure.Retrofit;
+import be.scryper.sos.ui.MeetingArrayAdapter;
+import be.scryper.sos.ui.SprintArrayAdapter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
-    private static final int CALENDAR_PERMISSION_CODE = 100;
 
     private Button btnProject;
-    private Button btnAgenda;
-    private Button btnProfile;
     private Button btnMeeting;
-    private TextView tvFirstname;
-    private TextView tvLastname;
-    private TextView tvRole;
+
+    private TextView tvHello;
+
+    private ListView lvDailyMeetings;
+
+    private DtoAuthenticateResult authenticateResult;
+
+    private MeetingArrayAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        btnProject = findViewById(R.id.btn_homeActivity_project);
-        btnAgenda = findViewById(R.id.btn_homeActivity_agenda);
-        btnProfile = findViewById(R.id.btn_homeActivity_profile);
-        btnMeeting = findViewById(R.id.btn_homeActivity_meeting);
-        tvFirstname = findViewById(R.id.tv_homeActivity_ph_firstname);
-        tvLastname = findViewById(R.id.tv_homeActivity_ph_lastname);
-        tvRole = findViewById(R.id.tv_homeActivity_ph_role);
 
-        DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
+        authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
 
-        tvFirstname.setText(authenticateResult.getFirstname());
-        tvLastname.setText(authenticateResult.getLastname());
+        initUI();
 
-        switch (authenticateResult.getRole()){
-            case 1:
-                tvRole.setText("Developer");
-                break;
+        initOnCLickListeners();
 
-            case 2:
-                tvRole.setText("Scrum Master");
-                break;
+        Log.e("dotni", String.valueOf(authenticateResult.getId()));
+        getMeetings(authenticateResult.getId());
 
-            default:
-                tvRole.setText("Product Owner");
-
-        }
-
-        btnProject.setOnClickListener(view -> {
-            Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);
-            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
-
-            startActivity(intent);
-        });
-
-        btnProfile.setOnClickListener(view -> {
-            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
-
-            startActivity(intent);
-        });
-        /*btnMeeting.setOnClickListener(view -> {
-            Intent intent = new Intent(HomeActivity.this, MeetingActivity.class);
-            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
-
-            startActivity(intent);
-        });*/
-
-        btnAgenda.setOnClickListener(view -> {
-            checkPermission(Manifest.permission.WRITE_CALENDAR, CALENDAR_PERMISSION_CODE);
-            addEvent();
-        });
     }
 
-    public void checkPermission(String permission, int requestCode)
+
+    /*public void checkPermission(String permission, int requestCode)
     {
         // Checking if permission is not granted
         if (ContextCompat.checkSelfPermission(HomeActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
@@ -97,31 +72,6 @@ public class HomeActivity extends AppCompatActivity {
         else {
             Toast.makeText(HomeActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void addEvent() {
-        String EVENT_BEGIN_TIME_IN_MILLIS = "1639663607000";
-        String EVENT_END_TIME_IN_MILLIS = "1639750007000";
-        final ContentValues event = new ContentValues();
-        event.put(CalendarContract.Events.CALENDAR_ID, 1);
-
-        event.put(CalendarContract.Events.TITLE, "test");
-        event.put(CalendarContract.Events.DESCRIPTION, "description");
-        event.put(CalendarContract.Events.EVENT_LOCATION, "location");
-
-        event.put(CalendarContract.Events.DTSTART, Long.parseLong(EVENT_BEGIN_TIME_IN_MILLIS.toString()));
-        event.put(CalendarContract.Events.DTEND, Long.parseLong(EVENT_END_TIME_IN_MILLIS.toString()));
-        event.put(CalendarContract.Events.ALL_DAY, 0);   // 0 for false, 1 for true
-        event.put(CalendarContract.Events.HAS_ALARM, 1); // 0 for false, 1 for true
-
-        String timeZone = TimeZone.getDefault().getID();
-        event.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone);
-
-        Uri baseUri;
-        baseUri = Uri.parse("content://com.android.calendar/events");
-
-        Context context = this.getApplicationContext();
-        context.getContentResolver().insert(baseUri, event);
     }
 
     @Override
@@ -141,5 +91,99 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT) .show();
             }
         }
+    }*/
+
+    public void initUI(){
+        btnProject = findViewById(R.id.btn_homeActivity_Projet);
+        btnMeeting = findViewById(R.id.btn_homeActivity_Meeting);
+        tvHello = findViewById(R.id.tv_homeActivity_Bonjour);
+        lvDailyMeetings = findViewById(R.id.lv_homeActivity_Meetings);
+        tvHello.setText("Hello " + authenticateResult.getFirstname());
+
+        adapter = new MeetingArrayAdapter(
+                getApplicationContext(),
+                new ArrayList<DtoMeeting>()
+        );
+
+        lvDailyMeetings.setAdapter(adapter);
+
+        //requete pour récup les meetings
+
+        //inflate la list view pour chaque meeting du jour
+
     }
+
+    public void initOnCLickListeners(){
+        btnProject.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);
+            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+
+            startActivity(intent);
+        });
+
+
+        btnMeeting.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, MeetingActivity.class);
+            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+
+            startActivity(intent);
+        });
+    }
+
+    private void getMeetings(int idUser) {
+        Retrofit.getInstance().create(IMeetingRepository.class)
+                .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
+            @Override
+            public void onResponse(Call<List<DtoInputMeeting>> call, Response<List<DtoInputMeeting>> response) {
+                if(response.code() == 200){
+                    //récupération de la réponse
+                    List<DtoInputMeeting> dto = response.body();
+                    List<DtoMeeting> dtoMeeting = new ArrayList<DtoMeeting>();
+                    //on parcourt pour récuperer le string et le transformer en date
+                    for(int i =0; i<dto.size();i++){
+                        DtoMeeting dtoFinal;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            LocalDateTime test = LocalDateTime.parse(dto.get(i).getSchedule());
+                            if(test.getDayOfYear() == LocalDateTime.now().getDayOfYear()&& test.getYear() == LocalDateTime.now().getYear()){
+                                dtoFinal = DtoMeeting.combine(dto.get(i),test);
+
+                                //ajout du dto à la liste d'auj
+                                adapter.add(dtoFinal);
+                                Log.e("dotni", dtoFinal.toString());
+                            }
+                        }
+                    }
+                }
+                else{
+                    Log.e("dotni", call.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DtoInputMeeting>> call, Throwable t) {
+                Log.e("dotni", t.toString());
+            }
+        });
+
+        /*Retrofit.getInstance().create(IMeetingRepository.class).getById(1).enqueue(new Callback<DtoInputMeeting>() {
+            @Override
+            public void onResponse(Call<DtoInputMeeting> call, Response<DtoInputMeeting> response) {
+                Log.e("dotni",response.body().toString());
+                DtoInputMeeting dto = response.body();
+                String str = dto.getSchedule();
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    LocalDateTime test = LocalDateTime.parse(str);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DtoInputMeeting> call, Throwable t) {
+                Log.e("dotni", call.request().url().toString());
+                Log.e("dotni", t.toString());
+            }
+        });*/
+    }
+
+
+
 }

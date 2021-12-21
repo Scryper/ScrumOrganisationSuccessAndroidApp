@@ -75,11 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<DtoAuthenticateResult> call, Throwable t) {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                t.toString(),
-                                Toast.LENGTH_LONG
-                        ).show();
+                        Log.e("dotni",t.toString());
+                        Log.e("dotni", call.toString());
                     }
                 });
     }
