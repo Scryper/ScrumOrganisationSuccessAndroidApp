@@ -1,14 +1,13 @@
 package be.scryper.sos;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,9 +16,9 @@ import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoDeveloperProject;
 import be.scryper.sos.dto.DtoProject;
 import be.scryper.sos.dto.DtoSprint;
-import be.scryper.sos.infrastructure.IUserProjectRepository;
 import be.scryper.sos.infrastructure.IProjectRepository;
 import be.scryper.sos.infrastructure.ISprintRepository;
+import be.scryper.sos.infrastructure.IUserProjectRepository;
 import be.scryper.sos.infrastructure.Retrofit;
 import be.scryper.sos.ui.SprintArrayAdapter;
 import retrofit2.Call;
@@ -140,7 +139,6 @@ public class ProjectActivity extends AppCompatActivity {
         );
 
         lvSimple.setAdapter(adapter);
-        // TODO : check if update in the relation between UserStory, Sprint and Project
         lvSimple.setOnItemClickListener((adapterView, view, i, l) -> {
             DtoSprint sprint = (DtoSprint) adapterView.getItemAtPosition(i);
             DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
@@ -154,6 +152,7 @@ public class ProjectActivity extends AppCompatActivity {
     }
 
     private void getSprints(int idProject) {
+
         Retrofit.getInstance().create(ISprintRepository.class)
                 .getByIdProject(idProject).enqueue(new Callback<List<DtoSprint>>() {
             @Override

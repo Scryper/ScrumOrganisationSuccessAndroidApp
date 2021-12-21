@@ -1,12 +1,12 @@
 package be.scryper.sos;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -151,3 +151,4 @@ public class SprintActivity extends AppCompatActivity {
         });
     }
 }
+

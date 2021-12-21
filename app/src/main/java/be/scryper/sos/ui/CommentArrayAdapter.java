@@ -14,6 +14,12 @@ import java.util.List;
 
 import be.scryper.sos.R;
 import be.scryper.sos.dto.DtoComment;
+import be.scryper.sos.dto.DtoUser;
+import be.scryper.sos.infrastructure.IUserRepository;
+import be.scryper.sos.infrastructure.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommentArrayAdapter extends ArrayAdapter<DtoComment> {
     public CommentArrayAdapter(@NonNull Context context, @NonNull List<DtoComment> objects) {
@@ -35,9 +41,36 @@ public class CommentArrayAdapter extends ArrayAdapter<DtoComment> {
 
     private void populateView(DtoComment comment, View convertView) {
         TextView tvContent = convertView.findViewById(R.id.tv_listItemComment_ph_content);
-        TextView tvPostedAt = convertView.findViewById(R.id.tv_listeItemComment_ph_postedAt);
+        TextView tvDate = convertView.findViewById(R.id.tv_listItemComment_ph_date);
+        TextView tvTime = convertView.findViewById(R.id.tv_listItemComment_ph_time);
+        TextView tvAuthor = convertView.findViewById(R.id.tv_listItemComment_ph_author);
+        String dateTime = comment.getPostedAt();
 
+        String[] datetimes = dateTime.split("T");
+        String[] dates = datetimes[0].split("-");
         tvContent.setText(comment.getContent());
-        tvPostedAt.setText(String.valueOf(comment.getPostedAt()));
+        tvDate.setText(dates[2]+"-"+dates[1]+"-"+dates[0]);
+        tvTime.setText(datetimes[1]);
+
+        Retrofit.getInstance().create(IUserRepository.class)
+                .getById(comment.getIdUser()).enqueue(new Callback<DtoUser>() {
+            @Override
+            public void onResponse(Call<DtoUser> call, Response<DtoUser> response) {
+                if (response.code() == 200) {
+                    DtoUser dtoUser = response.body();
+                    tvAuthor.setText(dtoUser.getFirstname() + "  " + dtoUser.getLastname() + " :");
+
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DtoUser> call, Throwable t) {
+
+
+            }
+        });
+
     }
 }

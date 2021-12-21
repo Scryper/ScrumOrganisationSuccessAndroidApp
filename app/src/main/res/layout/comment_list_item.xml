@@ -7,21 +7,47 @@
 
     <TextView
         android:id="@+id/tv_listItemComment_ph_content"
-        android:layout_width="wrap_content"
+        android:layout_width="238dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="152dp"
         android:text="Placeholder content"
+        app:layout_constraintEnd_toStartOf="@+id/tv_listItemComment_ph_time"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_listItemComment_ph_author" />
 
     <TextView
-        android:id="@+id/tv_listeItemComment_ph_postedAt"
+        android:id="@+id/tv_listItemComment_ph_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:textStyle="italic"
         android:text="Placeholder date"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_listItemComment_ph_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:textStyle="italic"
+        android:text="Placeholder time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_listItemComment_ph_date" />
+
+    <TextView
+        android:id="@+id/tv_listItemComment_ph_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:text="Placeholder author"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
