@@ -1,7 +1,6 @@
 package be.scryper.sos;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -52,7 +50,7 @@ public class UserStoryActivity extends AppCompatActivity {
 
         DtoUserStory userStory = getIntent().getParcelableExtra(SprintActivity.KEY_USER_STORY);
 
-        DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
+        DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         tvName.setText(userStory.getName());
         tvDescription.setText(userStory.getDescription());

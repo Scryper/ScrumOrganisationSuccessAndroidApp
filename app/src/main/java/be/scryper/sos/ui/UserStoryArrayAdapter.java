@@ -53,7 +53,6 @@ public class UserStoryArrayAdapter extends ArrayAdapter<DtoUserStory> {
         }
         String hexGreen = Integer.toHexString(green);
         String color = "#" + hexRed + hexGreen + "00";
-        Log.i("Todo", color);
 
         tvNumberUS.setTextColor(Color.parseColor(color));
 
