@@ -2,6 +2,7 @@ package be.scryper.sos.ui;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,22 +40,22 @@ public class UserStoryArrayAdapter extends ArrayAdapter<DtoUserStory> {
         TextView tvName = convertView.findViewById(R.id.tv_listItemUserStory_ph_name);
         TextView tvDescription = convertView.findViewById(R.id.tv_listItemUserStory_ph_description);
         TextView tvNumberUS = convertView.findViewById(R.id.tv_userStory_list_item_title);
-        String color;
-/*        switch(userStory.getPriority()){
-            case 1:
-                color = "#ab0926";
-                break;
-            case 2:
-                color = "#bf5f1f";
-                break;
-            case 3:
-                color = "#d4c133";
-                break;
-            default:
-                color = "#67a82d";
 
+        int priority = userStory.getPriority();
+        int red = 255 - priority * 255 / 7;
+        if(red < 0){
+            red = 0;
         }
-        convertView.setBackgroundColor(Color.parseColor(color));*/
+        String hexRed = Integer.toHexString(red);
+        int green = priority * 255 / 7;
+        if(green < 0){
+            green = 0;
+        }
+        String hexGreen = Integer.toHexString(green);
+        String color = "#" + hexRed + hexGreen + "00";
+        Log.i("Todo", color);
+
+        tvNumberUS.setTextColor(Color.parseColor(color));
 
         tvName.setText(userStory.getName());
         tvDescription.setText(userStory.getDescription());
