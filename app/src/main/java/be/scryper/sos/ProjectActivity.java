@@ -97,7 +97,6 @@ public class ProjectActivity extends AppCompatActivity {
                 .getById(idProject).enqueue(new Callback<DtoProject>() {
             @Override
             public void onResponse(Call<DtoProject> call, Response<DtoProject> response) {
-
                 if (response.code() == 200) {
                     DtoProject project = response.body();
                     tvName = findViewById(R.id.tv_projectActivity_ph_name);
