@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -42,9 +43,8 @@ public class TodayMeetingArrayAdapter extends ArrayAdapter<DtoMeeting> {
         TextView tvDate = convertView.findViewById(R.id.lv_meeting_date);
         TextView tvDescription = convertView.findViewById(R.id.lv_meeting_description);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            tvDate.setText(meeting.getSchedule().format(DateTimeFormatter.ofPattern("HH:mm")));
-        }
+
+        tvDate.setText(new SimpleDateFormat("HH:mm").format(meeting.getSchedule()).toString());
         tvDescription.setText(meeting.getDescription());
     }
 }

@@ -8,9 +8,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoInputMeeting;
@@ -82,12 +86,15 @@ public class MeetingActivity extends AppCompatActivity {
                     for(int i =0; i<dto.size();i++){
                         DtoMeeting dtoFinal;
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            LocalDateTime test = LocalDateTime.parse(dto.get(i).getSchedule());
-                            if(test.getDayOfYear() >= LocalDateTime.now().getDayOfYear()&& test.getYear() >= LocalDateTime.now().getYear()){
-                                dtoFinal = DtoMeeting.combine(dto.get(i),test);
-
-                                //ajout du dto à la liste d'auj
-                                adapter.add(dtoFinal);
+                            try {
+                                Date test = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).parse(dto.get(i).getSchedule());
+                                if(test.after(new Date())){
+                                    dtoFinal = DtoMeeting.combine(dto.get(i),test);
+                                    //ajout du dto à la liste d'auj
+                                    adapter.add(dtoFinal);
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
                         }
                     }

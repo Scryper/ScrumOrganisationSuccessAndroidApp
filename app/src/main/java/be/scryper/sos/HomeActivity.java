@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,10 +26,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoInputMeeting;
@@ -85,8 +90,7 @@ public class HomeActivity extends AppCompatActivity {
         lvDailyMeetings.setAdapter(adapter);
 
         lvDailyMeetings.setOnItemClickListener((adapterView, view, i, l)->{
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if(adapter.getItem(i).getSchedule().isBefore(LocalDateTime.now())){
+                if(adapter.getItem(i).getSchedule().before(new Date())){
                     Toast.makeText(
                             getApplicationContext(),
                             "Impossible to set an alarm in the past",
@@ -95,8 +99,6 @@ public class HomeActivity extends AppCompatActivity {
                 }else{
                     buildAlarmToast(adapter.getItem(i).getSchedule());
                 }
-            }
-
         });
     }
 
@@ -120,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
     private void getMeetings(int idUser) {
         Retrofit.getInstance().create(IMeetingRepository.class)
                 .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
+            @SuppressLint("SimpleDateFormat")
             @Override
             public void onResponse(Call<List<DtoInputMeeting>> call, Response<List<DtoInputMeeting>> response) {
                 if(response.code() == 200){
@@ -129,13 +132,15 @@ public class HomeActivity extends AppCompatActivity {
                     //on parcourt pour récuperer le string et le transformer en date
                     for(int i =0; i<dto.size();i++){
                         DtoMeeting dtoFinal;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            LocalDateTime test = LocalDateTime.parse(dto.get(i).getSchedule());
-                            if(test.getDayOfYear() == LocalDateTime.now().getDayOfYear()&& test.getYear() == LocalDateTime.now().getYear()){
+                        Date test = null;
+                        try {
+                            test = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH).parse(dto.get(i).getSchedule());
+                            if(test.after(new Date())){
                                 dtoFinal = DtoMeeting.combine(dto.get(i),test);
-                                //ajout du dto à la liste d'auj
                                 adapter.add(dtoFinal);
                             }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -180,13 +185,13 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void buildAlarmToast(LocalDateTime time){
+    public void buildAlarmToast(Date time){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         final EditText edittext = new EditText(getApplicationContext());
         String titleText = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            titleText = "Do you want to add an alarm at " + (time.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).toString();
+            titleText = "Do you want to add an alarm at " + (new SimpleDateFormat("dd/MM/yyyy HH:mm").format(time)).toString();
         }
 
         ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLUE);
@@ -216,14 +221,13 @@ public class HomeActivity extends AppCompatActivity {
                         checkPermission(Manifest.permission.SET_ALARM,ALARME_CODE);
                         Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            intent.putExtra(AlarmClock.EXTRA_HOUR,time.getHour());
-                            intent.putExtra(AlarmClock.EXTRA_MINUTES,time.getMinute());
+                            intent.putExtra(AlarmClock.EXTRA_HOUR,time.getHours());
+                            intent.putExtra(AlarmClock.EXTRA_MINUTES,time.getMinutes());
                             intent.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
                         }
                         startActivity(intent);
                     }
                 });
-
 
         //Creating dialog box
         AlertDialog alert = builder.create();
@@ -232,6 +236,4 @@ public class HomeActivity extends AppCompatActivity {
         //Setting the title manually
         alert.show();
     }
-
-
 }

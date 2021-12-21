@@ -1,16 +1,17 @@
 package be.scryper.sos.dto;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class DtoMeeting {
     private int id;
     private int idSprint;
-    private LocalDateTime schedule;
+    private Date schedule;
     private String description;
     private String meetingUrl;
 
 
-    public DtoMeeting(int id, int idSprint, LocalDateTime schedule, String description, String meetingUrl) {
+    public DtoMeeting(int id, int idSprint, Date schedule, String description, String meetingUrl) {
         this.id = id;
         this.idSprint = idSprint;
         this.schedule = schedule;
@@ -45,11 +46,11 @@ public class DtoMeeting {
         this.idSprint = idSprint;
     }
 
-    public LocalDateTime getSchedule() {
+    public Date getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(LocalDateTime schedule) {
+    public void setSchedule(Date schedule) {
         this.schedule = schedule;
     }
 
@@ -69,7 +70,7 @@ public class DtoMeeting {
         this.meetingUrl = meetingUrl;
     }
 
-    public static DtoMeeting combine(DtoInputMeeting dtoInputMeeting, LocalDateTime localDateTime){
+    public static DtoMeeting combine(DtoInputMeeting dtoInputMeeting, Date localDateTime){
         return new DtoMeeting(dtoInputMeeting.getId(),
                 dtoInputMeeting.getIdSprint(),
                 localDateTime,
