@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import java.text.DateFormat;
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class TodayMeetingArrayAdapter extends ArrayAdapter<DtoMeeting> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_meeting, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_today_meeting, null);
         }
 
         DtoMeeting meeting = getItem(position);

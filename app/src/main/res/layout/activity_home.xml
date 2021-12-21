@@ -31,33 +31,33 @@
 
     <ListView
         android:id="@+id/lv_homeActivity_Meetings"
-        android:layout_width="414dp"
-        android:layout_height="335dp"
+        android:layout_width="411dp"
+        android:layout_height="270dp"
         android:layout_marginTop="28dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_homeActivity_Projet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_homeActivity_TitleMeeting" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_homeActivity_TitleMeeting"
+        app:layout_constraintVertical_bias="0.055" />
 
     <Button
         android:id="@+id/btn_homeActivity_Projet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginBottom="44dp"
         android:text="Current project"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lv_homeActivity_Meetings" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_homeActivity_Meeting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_homeActivity_Meeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginBottom="88dp"
         android:text="My meetings"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toEndOf="@+id/btn_homeActivity_Projet"
-        app:layout_constraintTop_toBottomOf="@+id/lv_homeActivity_Meetings" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

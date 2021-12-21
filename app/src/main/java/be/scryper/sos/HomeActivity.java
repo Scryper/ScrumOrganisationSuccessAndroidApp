@@ -48,41 +48,9 @@ public class HomeActivity extends AppCompatActivity {
 
         initOnCLickListeners();
 
-        Log.e("dotni", String.valueOf(authenticateResult.getId()));
         getMeetings(authenticateResult.getId());
 
     }
-
-
-    /*public void checkPermission(String permission, int requestCode)
-    {
-        // Checking if permission is not granted
-        if (ContextCompat.checkSelfPermission(HomeActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[] { permission }, requestCode);
-        }
-        else {
-            Toast.makeText(HomeActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode,
-                permissions,
-                grantResults);
-
-        if (requestCode == CALENDAR_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(HomeActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT) .show();
-            }
-            else {
-                Toast.makeText(HomeActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT) .show();
-            }
-        }
-    }*/
 
     public void initUI(){
         btnProject = findViewById(R.id.btn_homeActivity_Projet);
@@ -130,13 +98,10 @@ public class HomeActivity extends AppCompatActivity {
                         DtoMeeting dtoFinal;
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             LocalDateTime test = LocalDateTime.parse(dto.get(i).getSchedule());
-                            Log.e("dotni", test.toString());
                             if(test.getDayOfYear() == LocalDateTime.now().getDayOfYear()&& test.getYear() == LocalDateTime.now().getYear()){
                                 dtoFinal = DtoMeeting.combine(dto.get(i),test);
-
                                 //ajout du dto à la liste d'auj
                                 adapter.add(dtoFinal);
-                                Log.e("dotni", dtoFinal.toString());
                             }
                         }
                     }
