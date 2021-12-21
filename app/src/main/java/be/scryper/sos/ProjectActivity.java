@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +17,7 @@ import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoDeveloperProject;
 import be.scryper.sos.dto.DtoProject;
 import be.scryper.sos.dto.DtoSprint;
-import be.scryper.sos.infrastructure.IDeveloperProjectRepository;
+import be.scryper.sos.infrastructure.IUserProjectRepository;
 import be.scryper.sos.infrastructure.IProjectRepository;
 import be.scryper.sos.infrastructure.ISprintRepository;
 import be.scryper.sos.infrastructure.Retrofit;
@@ -50,16 +51,17 @@ public class ProjectActivity extends AppCompatActivity {
     }
 
     private void getDeveloperProject(DtoAuthenticateResult authenticateResult) {
-        Retrofit.getInstance().create(IDeveloperProjectRepository.class)
+        Retrofit.getInstance().create(IUserProjectRepository.class)
                 .getByIdDeveloper(authenticateResult.getId()).enqueue(new Callback<List<DtoDeveloperProject>>() {
             @Override
             public void onResponse(Call<List<DtoDeveloperProject>> call, Response<List<DtoDeveloperProject>> response) {
+
                 if (response.code() == 200) {
                     List<DtoDeveloperProject> developerProjects = response.body();
                     for (DtoDeveloperProject developerProject :
                             developerProjects) {
                         // TODO : check if true is the value for accepted in a project
-                        if (developerProject.isAppliance()) {
+                        if (!developerProject.isAppliance()) {
                             getProject(developerProject.getIdProject());
                             getSprints(developerProject.getIdProject());
                             return;
@@ -95,6 +97,7 @@ public class ProjectActivity extends AppCompatActivity {
                 .getById(idProject).enqueue(new Callback<DtoProject>() {
             @Override
             public void onResponse(Call<DtoProject> call, Response<DtoProject> response) {
+
                 if (response.code() == 200) {
                     DtoProject project = response.body();
                     tvName = findViewById(R.id.tv_projectActivity_ph_name);

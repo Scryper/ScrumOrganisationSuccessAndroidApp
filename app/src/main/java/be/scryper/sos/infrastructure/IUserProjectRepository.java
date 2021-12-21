@@ -8,8 +8,8 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface IDeveloperProjectRepository {
+public interface IUserProjectRepository {
 
-    @GET("developerProject/byIdDeveloper/{idDeveloper}")
+    @GET("userProject/byIdDeveloper/{idDeveloper}")
     Call<List<DtoDeveloperProject>> getByIdDeveloper(@Path("idDeveloper") int id);
 }

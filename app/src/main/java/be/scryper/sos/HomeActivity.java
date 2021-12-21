@@ -1,10 +1,5 @@
 package be.scryper.sos;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,11 +7,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.TimeZone;
 
@@ -27,6 +26,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private Button btnProject;
     private Button btnAgenda;
+    private Button btnProfile;
+    private Button btnMeeting;
     private TextView tvFirstname;
     private TextView tvLastname;
     private TextView tvRole;
@@ -36,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         btnProject = findViewById(R.id.btn_homeActivity_project);
         btnAgenda = findViewById(R.id.btn_homeActivity_agenda);
+        btnProfile = findViewById(R.id.btn_homeActivity_profile);
+        btnMeeting = findViewById(R.id.btn_homeActivity_meeting);
         tvFirstname = findViewById(R.id.tv_homeActivity_ph_firstname);
         tvLastname = findViewById(R.id.tv_homeActivity_ph_lastname);
         tvRole = findViewById(R.id.tv_homeActivity_ph_role);
@@ -65,21 +68,21 @@ public class HomeActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
+        btnProfile.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+
+            startActivity(intent);
+        });
+        /*btnMeeting.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, MeetingActivity.class);
+            intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
+
+            startActivity(intent);
+        });*/
+
         btnAgenda.setOnClickListener(view -> {
-            String EVENT_BEGIN_TIME_IN_MILLIS = "1639663607000";
-            String EVENT_END_TIME_IN_MILLIS = "1639750007000";
-/*
-            Intent intent = new Intent(Intent.ACTION_INSERT)
-                    .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.Events.TITLE, "TITLE") // Simple title
-                    .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, Long.parseLong(EVENT_BEGIN_TIME_IN_MILLIS.toString())) // Only date part is considered when ALL_DAY is true; Same as DTSTART
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, Long.parseLong(EVENT_END_TIME_IN_MILLIS.toString())) // Only date part is considered when ALL_DAY is true
-                    .putExtra(CalendarContract.Events.EVENT_LOCATION, "Hong Kong")
-                    .putExtra(CalendarContract.Events.DESCRIPTION, "DESCRIPTION") // Description
-                    .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
-                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
-            startActivity(intent);*/
             checkPermission(Manifest.permission.WRITE_CALENDAR, CALENDAR_PERMISSION_CODE);
             addEvent();
         });

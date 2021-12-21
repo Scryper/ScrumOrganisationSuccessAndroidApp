@@ -4,11 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class DtoAuthenticateResult implements Parcelable {
+    private int id;
     private String firstname;
     private String lastname;
     private String email;
     private int role;
-    private int id;
     private String profilePicture;
     private String token;
 
