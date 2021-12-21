@@ -11,12 +11,12 @@
         android:id="@+id/tv_listItemUserStory_ph_name"
         android:layout_width="255dp"
         android:layout_height="21dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="12dp"
         android:text="Placeholder name"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tv_userStory_list_item_title"
         app:layout_constraintTop_toTopOf="parent" />
 

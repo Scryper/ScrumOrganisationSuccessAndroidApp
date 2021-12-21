@@ -38,6 +38,7 @@ public class UserStoryArrayAdapter extends ArrayAdapter<DtoUserStory> {
     private void populateView(DtoUserStory userStory, View convertView) {
         TextView tvName = convertView.findViewById(R.id.tv_listItemUserStory_ph_name);
         TextView tvDescription = convertView.findViewById(R.id.tv_listItemUserStory_ph_description);
+        TextView tvNumberUS = convertView.findViewById(R.id.tv_userStory_list_item_title);
         String color;
 /*        switch(userStory.getPriority()){
             case 1:
@@ -57,5 +58,6 @@ public class UserStoryArrayAdapter extends ArrayAdapter<DtoUserStory> {
 
         tvName.setText(userStory.getName());
         tvDescription.setText(userStory.getDescription());
+        tvNumberUS.setText("US "+String.valueOf(userStory.getPriority())+" : ");
     }
 }
