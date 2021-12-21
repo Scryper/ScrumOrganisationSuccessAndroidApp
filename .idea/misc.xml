@@ -21,8 +21,10 @@
         <entry key="..\:/Users/flora/Desktop/TI/Android/ScrumOrganisationSuccessAndroidApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.25277777777777777" />
         <entry key="..\:/Users/marti/StudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_home.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/marti/StudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_meeting.xml" value="0.23229166666666667" />
+        <entry key="..\:/Users/marti/StudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_project.xml" value="0.5" />
         <entry key="..\:/Users/marti/StudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/comment_list_item.xml" value="0.33" />
         <entry key="..\:/Users/marti/StudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/listview_meeting.xml" value="0.5" />
+        <entry key="..\:/Users/marti/StudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/sprint_list_item.xml" value="0.5" />
       </map>
     </option>
   </component>

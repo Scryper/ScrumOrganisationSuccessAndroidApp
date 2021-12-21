@@ -29,8 +29,6 @@ import retrofit2.Response;
 public class ProjectActivity extends AppCompatActivity {
     public static final String KEY_SPRINT = "sprint";
     private ListView lvSimple;
-    private TextView tvFirstname;
-    private TextView tvLastname;
     private TextView tvName;
     private TextView tvDescription;
 
@@ -38,15 +36,12 @@ public class ProjectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
-        tvFirstname = findViewById(R.id.tv_projectActivity_ph_firstname);
-        tvLastname = findViewById(R.id.tv_projectActivity_ph_lastname);
+
 
         DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(MainActivity.KEY_LOGIN);
 
         getDeveloperProject(authenticateResult);
 
-        tvFirstname.setText(authenticateResult.getFirstname());
-        tvLastname.setText(authenticateResult.getLastname());
 
     }
 

@@ -1,6 +1,7 @@
 package be.scryper.sos.ui;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import be.scryper.sos.R;
@@ -35,10 +38,16 @@ public class SprintArrayAdapter extends ArrayAdapter<DtoSprint> {
     }
 
     private void populateView(DtoSprint sprint, View convertView) {
-        TextView tvId = convertView.findViewById(R.id.tv_listItemSprint_ph_id);
+        TextView tvDate = convertView.findViewById(R.id.tv_listItemSprint_ph_date);
         TextView tvDescription = convertView.findViewById(R.id.tv_listItemSprint_ph_description);
 
-        tvId.setText(String.valueOf(sprint.getId()));
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDateTime tmp = LocalDateTime.parse(sprint.getDeadline());
+            tvDate.setText(tmp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        }else{
+            tvDate.setText(sprint.getDeadline());
+        }
         tvDescription.setText(sprint.getDescription());
     }
 }

@@ -6,34 +6,47 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_listItemSprint_ph_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:id="@+id/tv_listItemSprint_ph_date"
+        android:layout_width="139dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="307dp"
-        android:text="placeholder id"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="placeholder date"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_sprint_list_item_dateTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_listItemSprint_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="12dp"
-        android:text="Description"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="Description :"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_listItemSprint_ph_id" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_sprint_list_item_dateTitle" />
 
     <TextView
         android:id="@+id/tv_listItemSprint_ph_description"
+        android:layout_width="283dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:text="Placeholder description"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.807"
+        app:layout_constraintStart_toEndOf="@+id/tv_listItemSprint_description"
+        app:layout_constraintTop_toBottomOf="@+id/tv_listItemSprint_ph_date" />
+
+    <TextView
+        android:id="@+id/tv_sprint_list_item_dateTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="47dp"
-        android:text="Placeholder description"
-        app:layout_constraintStart_toEndOf="@+id/tv_listItemSprint_description"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text=" Deadline :"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
