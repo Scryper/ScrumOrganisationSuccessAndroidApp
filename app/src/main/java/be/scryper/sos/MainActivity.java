@@ -1,11 +1,17 @@
 package be.scryper.sos;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.AlarmClock;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;

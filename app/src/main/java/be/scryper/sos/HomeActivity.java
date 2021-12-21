@@ -1,22 +1,43 @@
 package be.scryper.sos;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.AlarmClock;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
+import be.scryper.sos.dto.DtoComment;
+import be.scryper.sos.dto.DtoCreateComment;
 import be.scryper.sos.dto.DtoInputMeeting;
 import be.scryper.sos.dto.DtoMeeting;
+import be.scryper.sos.infrastructure.ICommentRepository;
 import be.scryper.sos.infrastructure.IMeetingRepository;
 import be.scryper.sos.infrastructure.Retrofit;
 import be.scryper.sos.ui.TodayMeetingArrayAdapter;
@@ -25,6 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
+    private static final int ALARME_CODE = 100;
 
     private Button btnProject;
     private Button btnMeeting;
@@ -50,6 +72,7 @@ public class HomeActivity extends AppCompatActivity {
 
         getMeetings(authenticateResult.getId());
 
+
     }
 
     public void initUI(){
@@ -65,6 +88,21 @@ public class HomeActivity extends AppCompatActivity {
         );
 
         lvDailyMeetings.setAdapter(adapter);
+
+        lvDailyMeetings.setOnItemClickListener((adapterView, view, i, l)->{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(adapter.getItem(i).getSchedule().isBefore(LocalDateTime.now())){
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Impossible to set an alarm in the past",
+                            Toast.LENGTH_LONG).show();
+
+                }else{
+                    buildAlarmToast(adapter.getItem(i).getSchedule());
+                }
+            }
+
+        });
     }
 
     public void initOnCLickListeners(){
@@ -116,10 +154,89 @@ public class HomeActivity extends AppCompatActivity {
                 Log.e("dotni", t.toString());
             }
         });
-
-
     }
 
+    public void checkPermission(String permission, int requestCode)
+    {
+        // Checking if permission is not granted
+        if (ContextCompat.checkSelfPermission(HomeActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, new String[] { permission }, requestCode);
+            Log.e("dotni","jisipa pq jsuis al");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        super.
+                onRequestPermissionsResult(requestCode,
+                        permissions,
+                        grantResults);
+
+        if (requestCode == ALARME_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(HomeActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT) .show();
+            }
+            else {
+                Toast.makeText(HomeActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT) .show();
+            }
+        }
+    }
+
+    public void buildAlarmToast(LocalDateTime time){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final EditText edittext = new EditText(getApplicationContext());
+        String titleText = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            titleText = "Do you want to add an alarm at " + (time.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).toString();
+        }
+
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLUE);
+
+        // Initialize a new spannable string builder instance
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(titleText);
+
+        // Apply the text color span
+        ssBuilder.setSpan(
+                foregroundColorSpan,
+                0,
+                titleText.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        // Set the alert dialog title using spannable string builder
+        builder.setTitle(ssBuilder);
+        //Setting message manually and performing action on button click
+        builder .setCancelable(true)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("Add Alarm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        checkPermission(Manifest.permission.SET_ALARM,ALARME_CODE);
+                        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            intent.putExtra(AlarmClock.EXTRA_HOUR,time.getHour());
+                            intent.putExtra(AlarmClock.EXTRA_MINUTES,time.getMinute());
+                            intent.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
+                        }
+                        startActivity(intent);
+                    }
+                });
+
+
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        alert.setView(edittext);
+
+        //Setting the title manually
+        alert.show();
+    }
 
 
 }
