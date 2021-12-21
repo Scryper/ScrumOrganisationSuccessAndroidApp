@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else{
+
                             try {
                                 Toast.makeText(
                                         getApplicationContext(),
