@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
@@ -38,7 +39,6 @@ public class UserStoryActivity extends AppCompatActivity {
     private ListView lvSimple;
     private TextView tvName;
     private TextView tvDescription;
-    private EditText tvNewComment;
     private Button btnAddComment;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -49,7 +49,6 @@ public class UserStoryActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tv_userStoryActivity_ph_name);
         tvDescription = findViewById(R.id.tv_userStoryActivity_ph_description);
         btnAddComment = findViewById(R.id.btn_userStoryActivity_addComment);
-        tvNewComment = findViewById(R.id.et_userStoryActivity_comment);
 
         DtoUserStory userStory = getIntent().getParcelableExtra(SprintActivity.KEY_USER_STORY);
 
@@ -61,58 +60,96 @@ public class UserStoryActivity extends AppCompatActivity {
         getComments(userStory.getId());
 
         btnAddComment.setOnClickListener(view -> {
-            String content = tvNewComment.getText().toString();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            if(content.matches("")){
-                Toast.makeText(
-                        getApplicationContext(),
-                        "can't send empty comment",
-                        Toast.LENGTH_LONG
-                ).show();
+            final EditText edittext = new EditText(getApplicationContext());
+            String titleText = "Add comment";
 
-                return;
-            }
-            int idUserStory = userStory.getId();
-            int idUser = authenticateResult.getId();
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLUE);
 
-            LocalDateTime postedAt = LocalDateTime.now();
-            String tmp = postedAt.toString();
-            DtoCreateComment newComment = new DtoCreateComment(idUserStory, idUser, tmp, content);
-            Retrofit.getInstance().create(ICommentRepository.class)
-                    .create(newComment).enqueue(new Callback<DtoComment>() {
-                @Override
-                public void onResponse(Call<DtoComment> call, Response<DtoComment> response) {
+            // Initialize a new spannable string builder instance
+            SpannableStringBuilder ssBuilder = new SpannableStringBuilder(titleText);
 
-                    if (response.code() == 201) {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                "Comment added",
-                                Toast.LENGTH_LONG
-                        ).show();
-                        getComments(idUserStory);
-                        tvNewComment.getText().clear();
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(btnAddComment.getWindowToken(), 0);
-                    } else {
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    "error",
-                                    Toast.LENGTH_LONG
-                            ).show();
+            // Apply the text color span
+            ssBuilder.setSpan(
+                    foregroundColorSpan,
+                    0,
+                    titleText.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
 
-                    }
-                }
+            // Set the alert dialog title using spannable string builder
+            builder.setTitle(ssBuilder);
+            //Setting message manually and performing action on button click
+            builder.setMessage("Content :")
+                    .setCancelable(true)
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            if(edittext.getText().toString().matches("")){
+                                Toast.makeText(
+                                        getApplicationContext(),
+                                        "can't send empty comment",
+                                        Toast.LENGTH_LONG
+                                ).show();
 
-                @Override
-                public void onFailure(Call<DtoComment> call, Throwable t) {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            t.toString(),
-                            Toast.LENGTH_LONG
-                    ).show();
+                                return;
+                            }
+                            int idUserStory = userStory.getId();
+                            int idUser = authenticateResult.getId();
 
-                }
-            });
+                            LocalDateTime postedAt = LocalDateTime.now();
+                            postedAt = postedAt.truncatedTo(ChronoUnit.SECONDS);
+                            String tmp = postedAt.toString();
+                            DtoCreateComment newComment = new DtoCreateComment(idUserStory, idUser, tmp, edittext.getText().toString());
+                            Retrofit.getInstance().create(ICommentRepository.class)
+                                    .create(newComment).enqueue(new Callback<DtoComment>() {
+                                @Override
+                                public void onResponse(Call<DtoComment> call, Response<DtoComment> response) {
+
+                                    if (response.code() == 201) {
+                                        Toast.makeText(
+                                                getApplicationContext(),
+                                                "Comment added",
+                                                Toast.LENGTH_LONG
+                                        ).show();
+                                        getComments(idUserStory);
+                                    } else {
+                                        Toast.makeText(
+                                                getApplicationContext(),
+                                                "error",
+                                                Toast.LENGTH_LONG
+                                        ).show();
+
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<DtoComment> call, Throwable t) {
+                                    Toast.makeText(
+                                            getApplicationContext(),
+                                            t.toString(),
+                                            Toast.LENGTH_LONG
+                                    ).show();
+
+                                }
+                            });
+                        }
+                    });
+
+
+            //Creating dialog box
+            AlertDialog alert = builder.create();
+            alert.setView(edittext);
+
+            //Setting the title manually
+            alert.show();
+
+
         });
     }
 
@@ -196,7 +233,7 @@ public class UserStoryActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             DtoCreateComment updatedComment = new DtoCreateComment(comment.getIdUserStory(), comment.getIdUser(), comment.getPostedAt(), edittext.getText().toString());
                             updateComment(comment.getId(), updatedComment);
-                            finish();
+                            dialog.cancel();
                         }
                     })
             .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
