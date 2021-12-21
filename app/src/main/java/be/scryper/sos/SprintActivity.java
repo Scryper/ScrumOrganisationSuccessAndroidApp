@@ -26,9 +26,12 @@ import retrofit2.Response;
 
 public class SprintActivity extends AppCompatActivity {
     public static final String KEY_USER_STORY = "userStory";
+
+    private String projectName;
+
     private ListView lvSimple;
-    private TextView tvId;
     private TextView tvDescription;
+    private TextView tvProjectName;
 
     static List<DtoUserStory> listUserStories = new ArrayList<>();
 
@@ -37,13 +40,16 @@ public class SprintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprint);
         lvSimple = findViewById(R.id.lv_sprintActivity_simpleList);
-        tvId = findViewById(R.id.tv_sprintActivity_ph_id);
         tvDescription = findViewById(R.id.tv_sprintActivity_ph_description);
+        tvProjectName = findViewById(R.id.tv_ActivitySprint_ProjectTitle);
+
+        projectName = getIntent().getExtras().getString(ProjectActivity.KEY_PROJECT);
 
         DtoSprint sprint = getIntent().getParcelableExtra(ProjectActivity.KEY_SPRINT);
 
-        tvId.setText(String.valueOf(sprint.getId()));
         tvDescription.setText(sprint.getDescription());
+        tvProjectName.setText(projectName);
+
 
         getSprintUserStory(sprint.getId());
 

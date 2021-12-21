@@ -27,9 +27,11 @@ import retrofit2.Response;
 
 public class ProjectActivity extends AppCompatActivity {
     public static final String KEY_SPRINT = "sprint";
+    public static final String KEY_PROJECT = "projectName" ;
     private ListView lvSimple;
     private TextView tvName;
     private TextView tvDescription;
+    private String projectName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,7 @@ public class ProjectActivity extends AppCompatActivity {
                     tvDescription = findViewById(R.id.tv_projectActivity_ph_description);
                     tvName.setText(project.getName());
                     tvDescription.setText(project.getDescription());
+                    projectName = project.getName();
 
                 } else {
                     try {
@@ -140,7 +143,7 @@ public class ProjectActivity extends AppCompatActivity {
             Intent intent = new Intent(ProjectActivity.this, SprintActivity.class);
             intent.putExtra(KEY_SPRINT, (Parcelable) sprint);
             intent.putExtra(MainActivity.KEY_LOGIN, authenticateResult);
-
+            intent.putExtra(KEY_PROJECT, projectName);
 
             startActivity(intent);
         });
