@@ -56,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //get intent from login activity
         authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         initUI();
@@ -63,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         getMeetings(authenticateResult.getId());
     }
 
+    //init UI with empty list view
     public void initUI(){
         btnProject = findViewById(R.id.btn_homeActivity_project);
         btnMeeting = findViewById(R.id.btn_homeActivity_meeting);
@@ -90,13 +92,16 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    //init the buttons of the activity
     public void initOnCLickListeners(){
+        //Button to go to the project
         btnProject.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);
             intent.putExtra(LoginActivity.KEY_LOGIN, authenticateResult);
             startActivity(intent);
         });
 
+        //Button to show the whole list of meetings
         btnMeeting.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, MeetingActivity.class);
             intent.putExtra(LoginActivity.KEY_LOGIN, authenticateResult);
@@ -104,6 +109,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    //Get the list of daily meetings
     private void getMeetings(int idUser) {
         Retrofit.getInstance().create(IMeetingRepository.class)
                 .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
@@ -143,22 +149,22 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    // Checking if permission is not granted
     public void checkPermission(String permission, int requestCode)
     {
-        // Checking if permission is not granted
         if (ContextCompat.checkSelfPermission(HomeActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(HomeActivity.this, new String[] { permission }, requestCode);
         }
     }
 
+    //build alert to create the alarm
+    @SuppressLint("SimpleDateFormat")
     public void buildAlarmToast(Date time){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         final EditText edittext = new EditText(getApplicationContext());
-        String titleText = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            titleText = "Do you want to add an alarm at " + (new SimpleDateFormat("dd/MM/yyyy HH:mm").format(time)).toString();
-        }
+        String titleText;
+        titleText = "Do you want to add an alarm at " + (new SimpleDateFormat("dd/MM/yyyy HH:mm").format(time));
 
         ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLUE);
 
@@ -184,8 +190,10 @@ public class HomeActivity extends AppCompatActivity {
                 })
                 .setPositiveButton("Add Alarm", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        //check the permission for the alarm
                         checkPermission(Manifest.permission.SET_ALARM, ALARM_CODE);
 
+                        //create the alarm
                         Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
                         intent.putExtra(AlarmClock.EXTRA_HOUR,time.getHours());
                         intent.putExtra(AlarmClock.EXTRA_MINUTES,time.getMinutes());

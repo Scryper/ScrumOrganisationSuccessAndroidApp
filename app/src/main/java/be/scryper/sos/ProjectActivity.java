@@ -40,11 +40,14 @@ public class ProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
+        //get the intent from the login
         DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
+        //Get the project and fill the listview with the sprints
         getDeveloperProject(authenticateResult);
     }
 
+    //get the id of the project of the user if there is one
     private void getDeveloperProject(DtoAuthenticateResult authenticateResult) {
         Retrofit.getInstance().create(IUserProjectRepository.class)
                 .getByIdDeveloper(authenticateResult.getId()).enqueue(new Callback<List<DtoDeveloperProject>>() {
@@ -55,8 +58,11 @@ public class ProjectActivity extends AppCompatActivity {
                     List<DtoDeveloperProject> developerProjects = response.body();
                     for (DtoDeveloperProject developerProject :
                             developerProjects) {
+                        //check if the user as applied for a project and has been accepted
                         if (!developerProject.isAppliance()) {
+                            //get the project information
                             getProject(developerProject.getIdProject());
+                            //get the sprint of the project
                             getSprints(developerProject.getIdProject());
                             return;
                         }
@@ -77,6 +83,7 @@ public class ProjectActivity extends AppCompatActivity {
         });
     }
 
+    //get the information of the project
     private void getProject(int idProject) {
         Retrofit.getInstance().create(IProjectRepository.class)
                 .getById(idProject).enqueue(new Callback<DtoProject>() {
@@ -106,6 +113,7 @@ public class ProjectActivity extends AppCompatActivity {
         });
     }
 
+    //fill the listview with sprint
     private void initSprintList(List<DtoSprint> sprints) {
         lvSimple = findViewById(R.id.lv_projectActivity_simpleList);
 
@@ -116,6 +124,7 @@ public class ProjectActivity extends AppCompatActivity {
         );
 
         lvSimple.setAdapter(adapter);
+        //on click, go to SprintActivity
         lvSimple.setOnItemClickListener((adapterView, view, i, l) -> {
             DtoSprint sprint = (DtoSprint) adapterView.getItemAtPosition(i);
             DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
@@ -128,6 +137,7 @@ public class ProjectActivity extends AppCompatActivity {
         });
     }
 
+    //get the list of sprints of the project
     private void getSprints(int idProject) {
 
         Retrofit.getInstance().create(ISprintRepository.class)

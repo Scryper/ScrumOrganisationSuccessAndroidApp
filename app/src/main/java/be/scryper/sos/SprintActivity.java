@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +40,9 @@ public class SprintActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sprint);
         lvSimple = findViewById(R.id.lv_sprintActivity_simpleList);
         tvDescription = findViewById(R.id.tv_sprintActivity_ph_description);
-        tvProjectName = findViewById(R.id.tv_sprintActivity_ProjectTitle);
+        tvProjectName = findViewById(R.id.tv_sprintActivity_ph_ProjectTitle);
 
+        //get the intents from ProjectActivity
         projectName = getIntent().getExtras().getString(ProjectActivity.KEY_PROJECT);
         DtoSprint sprint = getIntent().getParcelableExtra(ProjectActivity.KEY_SPRINT);
 
@@ -52,6 +52,7 @@ public class SprintActivity extends AppCompatActivity {
         getSprintUserStory(sprint.getId());
     }
 
+    //get the list of user stories linked to the sprint
     private void getSprintUserStory(int id) {
         Retrofit.getInstance().create(ISprintUserStoryRepository.class)
                 .getByIdSprint(id).enqueue(new Callback<List<DtoSprintUserStory>>() {
@@ -79,6 +80,7 @@ public class SprintActivity extends AppCompatActivity {
         });
     }
 
+    //get the list of user stories from the list obtained in getSprintUserStory()
     private void getUserStories(List<DtoSprintUserStory> sprintUserStories) {
         for (DtoSprintUserStory sprintUserStory:
              sprintUserStories) {
@@ -111,6 +113,7 @@ public class SprintActivity extends AppCompatActivity {
 
     }
 
+    //init the listview with the user stories
     private void initUserStoryList() {
 
         UserStoryArrayAdapter adapter = new UserStoryArrayAdapter(
@@ -120,6 +123,7 @@ public class SprintActivity extends AppCompatActivity {
 
         lvSimple.setAdapter(adapter);
 
+        //on click goes to UserStoryActivity
         lvSimple.setOnItemClickListener((adapterView, view, i, l) -> {
             DtoUserStory userStory = (DtoUserStory) adapterView.getItemAtPosition(i);
             DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);

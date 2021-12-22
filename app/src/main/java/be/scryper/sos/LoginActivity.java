@@ -34,14 +34,18 @@ public class LoginActivity extends AppCompatActivity {
         mail = findViewById(R.id.et_mainActivity_mail);
         password = findViewById(R.id.et_mainActivity_password);
         Button btnConnect = findViewById(R.id.btn_mainActivity_submit);
+
+        //data for the login
         mail.setText("la199788@student.helha.be");
         password.setText("myneck");
 
         btnConnect.setOnClickListener(view -> {
+            //function to try to log in the user
             authenticate(new DtoAuthenticateRequest(mail.getText().toString(), password.getText().toString()));
         });
     }
 
+    //try to authenticate the user
     private void authenticate(DtoAuthenticateRequest authentication) {
 
         Retrofit.getInstance().create(IUserRepository.class)
@@ -50,15 +54,16 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<DtoAuthenticateResult> call, Response<DtoAuthenticateResult> response) {
 
                         if(response.code() == 200) {
+                            //if the user informations are OK, then the user goes to HomeActivity
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             DtoAuthenticateResult authenticateResult = response.body();
-                            intent.putExtra(KEY_LOGIN, (Parcelable) authenticateResult);
+                            intent.putExtra(KEY_LOGIN, authenticateResult);
                             startActivity(intent);
                         }
                         else{
                              Toast.makeText(
                                      getApplicationContext(),
-                                     "Something went wrong",
+                                     "Bad credentials",
                                      Toast.LENGTH_SHORT
                              ).show();
                         }

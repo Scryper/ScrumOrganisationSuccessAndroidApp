@@ -38,31 +38,36 @@ public class MeetingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting);
 
+        //get the intent from the login
         authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
+        //init UI and fill listview
         initUI();
         initOnCLickListeners();
         getMeetings(authenticateResult.getId());
     }
 
+    //init the onClickListener of each button
     private void initOnCLickListeners() {
         btnBack.setOnClickListener(view -> {
             this.finish();
         });
     }
 
+    //init the listview empty
     public void initUI(){
         btnBack = findViewById(R.id.btn_meetingActivity_back);
         lvMeetings = findViewById(R.id.lv_meetingActivity_meetings);
 
         adapter = new MeetingArrayAdapter(
                 this,
-                new ArrayList<DtoMeeting>()
+                new ArrayList<>()
         );
 
         lvMeetings.setAdapter(adapter);
     }
 
+    //get the whole list of meetings
     private void getMeetings(int idUser) {
         Retrofit.getInstance().create(IMeetingRepository.class)
                 .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {

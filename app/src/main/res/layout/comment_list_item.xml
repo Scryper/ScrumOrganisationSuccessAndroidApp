@@ -12,7 +12,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="152dp"
-        android:text="Placeholder content"
+        android:hint="Placeholder content"
         app:layout_constraintEnd_toStartOf="@+id/tv_listItemComment_ph_time"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:textStyle="italic"
-        android:text="Placeholder date"
+        android:hint="Placeholder date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
         android:textStyle="italic"
-        android:text="Placeholder time"
+        android:hint="Placeholder time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_listItemComment_ph_date" />
 
@@ -47,7 +47,7 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="16dp"
         android:textStyle="bold"
-        android:text="Placeholder author"
+        android:hint="Placeholder author"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,10 +8,10 @@
     <TextView
         android:id="@+id/tv_listItemSprint_ph_date"
         android:layout_width="139dp"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
-        android:text="placeholder date"
+        android:hint="placeholder date"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/tv_listItemSprint_dateTitle"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_width="283dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Placeholder description"
+        android:hint="Placeholder description"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.807"

@@ -8,9 +8,9 @@
     <TextView
         android:id="@+id/tv_listViewMeeting_ph_date"
         android:layout_width="224dp"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="26/11/1998 16h15"
+        android:hint="26/11/1998 16h15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.168"
         app:layout_constraintStart_toEndOf="@+id/tv_listViewMeeting_date"
@@ -19,9 +19,9 @@
     <TextView
         android:id="@+id/tv_listViewMeeting_ph_description"
         android:layout_width="272dp"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Description"
+        android:hint="Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"

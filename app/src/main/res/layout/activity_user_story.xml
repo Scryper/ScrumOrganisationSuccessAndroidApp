@@ -13,7 +13,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:text="Placeholder name"
+        android:hint="Placeholder name"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_userStoryActivity_name"
@@ -26,7 +26,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:text="Placeholder description"
+        android:hint="Placeholder description"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_userStoryActivity_description"
@@ -37,16 +37,14 @@
         android:layout_width="412dp"
         android:layout_height="413dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="100dp"
         android:divider="#807a7a"
         android:dividerHeight="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_userStoryActivity_addComment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_userStoryActivity_comment">
+        app:layout_constraintTop_toBottomOf="@+id/tv_userStoryActivity_comment">
 
 
     </ListView>
@@ -57,10 +55,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="144dp"
         android:layout_marginEnd="143dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="30dp"
         android:text="Add comment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

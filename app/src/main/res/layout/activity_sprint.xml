@@ -9,15 +9,15 @@
     <TextView
         android:id="@+id/tv_sprintActivity_ph_description"
         android:layout_width="254dp"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="4dp"
-        android:text="Placeholder description"
+        android:hint="Placeholder description"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tv_sprintActivity_description"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sprintActivity_ProjectTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_sprintActivity_ph_ProjectTitle" />
 
     <TextView
         android:id="@+id/tv_sprintActivity_description"
@@ -27,14 +27,14 @@
         android:layout_marginTop="4dp"
         android:text="Description :"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sprintActivity_ProjectTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_sprintActivity_ph_ProjectTitle" />
 
     <TextView
-        android:id="@+id/tv_sprintActivity_ProjectTitle"
+        android:id="@+id/tv_sprintActivity_ph_ProjectTitle"
         android:layout_width="278dp"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Project Name"
+        android:hint="Project Name"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.937"

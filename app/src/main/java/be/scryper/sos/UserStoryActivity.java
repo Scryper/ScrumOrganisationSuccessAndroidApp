@@ -47,8 +47,8 @@ public class UserStoryActivity extends AppCompatActivity {
         tvDescription = findViewById(R.id.tv_userStoryActivity_ph_description);
         btnAddComment = findViewById(R.id.btn_userStoryActivity_addComment);
 
+        //get intent from SprintActivity and LoginActivity
         DtoUserStory userStory = getIntent().getParcelableExtra(SprintActivity.KEY_USER_STORY);
-
         DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         tvName.setText(userStory.getName());
@@ -56,6 +56,7 @@ public class UserStoryActivity extends AppCompatActivity {
 
         getComments(userStory.getId());
 
+        //on click open alert to add a comment
         btnAddComment.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -73,6 +74,7 @@ public class UserStoryActivity extends AppCompatActivity {
                     })
                     .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            //check if comment is empty
                             if(edittext.getText().toString().matches("")){
                                 Toast.makeText(
                                         getApplicationContext(),
@@ -80,6 +82,7 @@ public class UserStoryActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT
                                 ).show();
                                 dialog.cancel();
+                                return;
                             }
                             int idUserStory = userStory.getId();
                             int idUser = authenticateResult.getId();
@@ -100,6 +103,7 @@ public class UserStoryActivity extends AppCompatActivity {
         });
     }
 
+    //add a comment
     private void addComment(DtoCreateComment newComment, int idUserStory) {
         Retrofit.getInstance().create(ICommentRepository.class)
                 .create(newComment).enqueue(new Callback<DtoComment>() {
@@ -124,6 +128,7 @@ public class UserStoryActivity extends AppCompatActivity {
         });
     }
 
+    //get the list of comments
     private void getComments(int id) {
         Retrofit.getInstance().create(ICommentRepository.class)
                 .getByIdUserStory(id).enqueue(new Callback<List<DtoComment>>() {
@@ -149,6 +154,7 @@ public class UserStoryActivity extends AppCompatActivity {
         });
     }
 
+    //init the listview with the list of comment
     private void initCommentList(List<DtoComment> comments) {
         lvSimple = findViewById(R.id.lv_userStoryActivity_simpleList);
 
@@ -159,14 +165,20 @@ public class UserStoryActivity extends AppCompatActivity {
 
         lvSimple.setAdapter(adapter);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
+        //on click open an alert to update or delete the comment
         lvSimple.setOnItemClickListener((adapterView, view, i, l) -> {
             //Uncomment the below code to Set the message and title from the strings.xml file
             final EditText edittext = new EditText(getApplicationContext());
 
             DtoComment comment = (DtoComment) adapterView.getItemAtPosition(i);
 
-            // Set the alert dialog title using spannable string builder
+            if(authenticateResult.getId() != comment.getIdUser()){
+                return;
+            }
+
+                // Set the alert dialog title using spannable string builder
             builder.setTitle(setTextColor("Update comment", Color.BLUE));
 
             //Setting message manually and performing action on button click
@@ -199,6 +211,7 @@ public class UserStoryActivity extends AppCompatActivity {
         });
     }
 
+    //used to change the color of the text in an alert
     private SpannableStringBuilder setTextColor(String content, int color) {
         ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(color);
 
@@ -216,6 +229,7 @@ public class UserStoryActivity extends AppCompatActivity {
         return ssBuilder;
     }
 
+    //delete a comment
     private void deleteComment(int commentId, int idUserStory) {
         Retrofit.getInstance().create(ICommentRepository.class)
                 .delete(commentId).enqueue(new Callback<Void>() {
@@ -241,6 +255,7 @@ public class UserStoryActivity extends AppCompatActivity {
         });
     }
 
+    //update a comment
     private void updateComment(int id, DtoCreateComment updatedComment) {
         Retrofit.getInstance().create(ICommentRepository.class)
                 .updateContent(id, updatedComment).enqueue(new Callback<Void>() {
