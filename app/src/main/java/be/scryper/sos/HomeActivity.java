@@ -29,6 +29,7 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -111,6 +112,8 @@ public class HomeActivity extends AppCompatActivity {
 
     //Get the list of daily meetings
     private void getMeetings(int idUser) {
+        Log.i("Todo", "Todo");
+
         Retrofit.getInstance().create(IMeetingRepository.class)
                 .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
             @Override
@@ -121,11 +124,16 @@ public class HomeActivity extends AppCompatActivity {
                     //on parcourt pour récuperer le string et le transformer en date
                     for(int i =0; i<dto.size();i++){
                         DtoMeeting dtoFinal;
-                        Date test;
+                        Date today;
                         try {
-                            test = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH).parse(dto.get(i).getSchedule());
-                            if(test.after(new Date())){
-                                dtoFinal = DtoMeeting.combine(dto.get(i),test);
+                            //check if the meeting is today before adding to the listview
+                            today = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH).parse(dto.get(i).getSchedule());
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(new Date());
+                            cal.add(Calendar.DATE, 1);
+                            Date tomorrow = cal.getTime();
+                            if(today.after(new Date()) && today.before(tomorrow)){
+                                dtoFinal = DtoMeeting.combine(dto.get(i),today);
                                 adapter.add(dtoFinal);
                             }
                         } catch (ParseException e) {
