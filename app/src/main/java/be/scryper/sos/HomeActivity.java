@@ -112,7 +112,6 @@ public class HomeActivity extends AppCompatActivity {
 
     //Get the list of daily meetings
     private void getMeetings(int idUser) {
-        Log.i("Todo", "Todo");
 
         Retrofit.getInstance().create(IMeetingRepository.class)
                 .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
