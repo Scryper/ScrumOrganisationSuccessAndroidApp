@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,14 +29,8 @@ import retrofit2.Response;
 public class MeetingActivity extends AppCompatActivity {
 
     private Button btnBack;
-
-    private TextView tvDate;
-    private TextView tvDescription;
-
     private ListView lvMeetings;
-
     private DtoAuthenticateResult authenticateResult;
-
     private MeetingArrayAdapter adapter;
 
     @Override
@@ -46,9 +41,7 @@ public class MeetingActivity extends AppCompatActivity {
         authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         initUI();
-
         initOnCLickListeners();
-
         getMeetings(authenticateResult.getId());
     }
 
@@ -60,8 +53,6 @@ public class MeetingActivity extends AppCompatActivity {
 
     public void initUI(){
         btnBack = findViewById(R.id.btn_meetingActivity_back);
-        tvDate = findViewById(R.id.tv_listViewMeeting_ph_date);
-        tvDescription = findViewById(R.id.tv_listViewMeeting_ph_description);
         lvMeetings = findViewById(R.id.lv_meetingActivity_meetings);
 
         adapter = new MeetingArrayAdapter(
@@ -84,32 +75,32 @@ public class MeetingActivity extends AppCompatActivity {
                     //on parcourt pour récuperer le string et le transformer en date
                     for(int i =0; i<dto.size();i++){
                         DtoMeeting dtoFinal;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            try {
-                                Date test = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).parse(dto.get(i).getSchedule());
-                                if(test.after(new Date())){
-                                    dtoFinal = DtoMeeting.combine(dto.get(i),test);
-                                    //ajout du dto à la liste d'auj
-                                    adapter.add(dtoFinal);
-                                }
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
+                        Date date = null;
+                        try {
+                            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).parse(dto.get(i).getSchedule());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if(date.after(new Date())){
+                            dtoFinal = DtoMeeting.combine(dto.get(i), date);
+                            //ajout du dto à la liste d'auj
+                            adapter.add(dtoFinal);
                         }
                     }
                 }
                 else{
-                    Log.e("dotni", call.toString());
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<DtoInputMeeting>> call, Throwable t) {
-                Log.e("dotni", t.toString());
+                Log.e("Error", t.toString());
             }
         });
-
-
     }
-
 }

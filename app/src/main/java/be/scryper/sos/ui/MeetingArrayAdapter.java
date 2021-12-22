@@ -1,5 +1,6 @@
 package be.scryper.sos.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ public class MeetingArrayAdapter extends ArrayAdapter<DtoMeeting> {
         return convertView;
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     private void populateView(DtoMeeting meeting, View convertView) {
 
         TextView tvDate = convertView.findViewById(R.id.tv_listViewMeeting_ph_date);

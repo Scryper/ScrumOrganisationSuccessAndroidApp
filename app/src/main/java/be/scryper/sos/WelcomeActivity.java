@@ -4,11 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.widget.Button;
 
-import be.scryper.sos.dto.DtoAuthenticateResult;
 
 public class WelcomeActivity extends AppCompatActivity {
     private Button btnLogin;

@@ -13,7 +13,9 @@ import okhttp3.OkHttpClient;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Retrofit {
+    //emulateur
     private static final String BASE_URL = "https://10.0.2.2:5001/api/";
+    //real phone
     //private static final String BASE_URL = "http://10.2.32.28:5000/api/";
     private static retrofit2.Retrofit instance;
 
@@ -27,6 +29,7 @@ public class Retrofit {
         }
         return instance;
     }
+
     private static OkHttpClient getUnsafeOkHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains

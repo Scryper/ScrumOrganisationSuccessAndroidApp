@@ -29,7 +29,7 @@
     <TextView
         android:id="@+id/tv_listItemSprint_ph_description"
         android:layout_width="283dp"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Placeholder description"
         android:textStyle="italic"

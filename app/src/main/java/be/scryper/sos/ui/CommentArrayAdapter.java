@@ -1,6 +1,8 @@
 package be.scryper.sos.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,21 +56,18 @@ public class CommentArrayAdapter extends ArrayAdapter<DtoComment> {
 
         Retrofit.getInstance().create(IUserRepository.class)
                 .getById(comment.getIdUser()).enqueue(new Callback<DtoUser>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<DtoUser> call, Response<DtoUser> response) {
                 if (response.code() == 200) {
                     DtoUser dtoUser = response.body();
                     tvAuthor.setText(dtoUser.getFirstname() + "  " + dtoUser.getLastname() + " :");
-
-
-
                 }
             }
 
             @Override
             public void onFailure(Call<DtoUser> call, Throwable t) {
-
-
+                Log.e("Error", t.toString());
             }
         });
 

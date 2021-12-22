@@ -70,10 +70,10 @@ public class DtoMeeting {
         this.meetingUrl = meetingUrl;
     }
 
-    public static DtoMeeting combine(DtoInputMeeting dtoInputMeeting, Date localDateTime){
+    public static DtoMeeting combine(DtoInputMeeting dtoInputMeeting, Date dateTime){
         return new DtoMeeting(dtoInputMeeting.getId(),
                 dtoInputMeeting.getIdSprint(),
-                localDateTime,
+                dateTime,
                 dtoInputMeeting.getDescription(),
                 dtoInputMeeting.getMeetingUrl());
     }

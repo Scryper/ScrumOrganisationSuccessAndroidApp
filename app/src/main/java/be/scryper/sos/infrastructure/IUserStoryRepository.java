@@ -1,8 +1,5 @@
 package be.scryper.sos.infrastructure;
 
-import java.util.List;
-
-import be.scryper.sos.dto.DtoSprintUserStory;
 import be.scryper.sos.dto.DtoUserStory;
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -28,8 +28,6 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,17 +44,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
-    private static final int ALARME_CODE = 100;
+    private static final int ALARM_CODE = 100;
 
     private Button btnProject;
     private Button btnMeeting;
-
-    private TextView tvHello;
-
-    private ListView lvDailyMeetings;
-
     private DtoAuthenticateResult authenticateResult;
-
     private TodayMeetingArrayAdapter adapter;
 
     @Override
@@ -67,24 +59,20 @@ public class HomeActivity extends AppCompatActivity {
         authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         initUI();
-
         initOnCLickListeners();
-
         getMeetings(authenticateResult.getId());
-
-
     }
 
     public void initUI(){
         btnProject = findViewById(R.id.btn_homeActivity_project);
         btnMeeting = findViewById(R.id.btn_homeActivity_meeting);
-        tvHello = findViewById(R.id.tv_homeActivity_bonjour);
-        lvDailyMeetings = findViewById(R.id.lv_homeActivity_meetings);
+        TextView tvHello = findViewById(R.id.tv_homeActivity_bonjour);
+        ListView lvDailyMeetings = findViewById(R.id.lv_homeActivity_meetings);
         tvHello.setText("Hello " + authenticateResult.getFirstname());
 
         adapter = new TodayMeetingArrayAdapter(
                 this,
-                new ArrayList<DtoMeeting>()
+                new ArrayList<>()
         );
 
         lvDailyMeetings.setAdapter(adapter);
@@ -94,8 +82,8 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(
                             getApplicationContext(),
                             "Impossible to set an alarm in the past",
-                            Toast.LENGTH_LONG).show();
-
+                            Toast.LENGTH_LONG
+                    ).show();
                 }else{
                     buildAlarmToast(adapter.getItem(i).getSchedule());
                 }
@@ -106,15 +94,12 @@ public class HomeActivity extends AppCompatActivity {
         btnProject.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, ProjectActivity.class);
             intent.putExtra(LoginActivity.KEY_LOGIN, authenticateResult);
-
             startActivity(intent);
         });
-
 
         btnMeeting.setOnClickListener(view -> {
             Intent intent = new Intent(HomeActivity.this, MeetingActivity.class);
             intent.putExtra(LoginActivity.KEY_LOGIN, authenticateResult);
-
             startActivity(intent);
         });
     }
@@ -122,17 +107,15 @@ public class HomeActivity extends AppCompatActivity {
     private void getMeetings(int idUser) {
         Retrofit.getInstance().create(IMeetingRepository.class)
                 .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
-            @SuppressLint("SimpleDateFormat")
             @Override
             public void onResponse(Call<List<DtoInputMeeting>> call, Response<List<DtoInputMeeting>> response) {
                 if(response.code() == 200){
                     //récupération de la réponse
                     List<DtoInputMeeting> dto = response.body();
-                    List<DtoMeeting> dtoMeeting = new ArrayList<DtoMeeting>();
                     //on parcourt pour récuperer le string et le transformer en date
                     for(int i =0; i<dto.size();i++){
                         DtoMeeting dtoFinal;
-                        Date test = null;
+                        Date test;
                         try {
                             test = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH).parse(dto.get(i).getSchedule());
                             if(test.after(new Date())){
@@ -145,13 +128,17 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    Log.e("dotni", call.toString());
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<DtoInputMeeting>> call, Throwable t) {
-                Log.e("dotni", t.toString());
+                Log.e("Error", call.toString());
             }
         });
     }
@@ -161,27 +148,6 @@ public class HomeActivity extends AppCompatActivity {
         // Checking if permission is not granted
         if (ContextCompat.checkSelfPermission(HomeActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(HomeActivity.this, new String[] { permission }, requestCode);
-            Log.e("dotni","jisipa pq jsuis al");
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        super.
-                onRequestPermissionsResult(requestCode,
-                        permissions,
-                        grantResults);
-
-        if (requestCode == ALARME_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(HomeActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT) .show();
-            }
-            else {
-                Toast.makeText(HomeActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT) .show();
-            }
         }
     }
 
@@ -218,13 +184,12 @@ public class HomeActivity extends AppCompatActivity {
                 })
                 .setPositiveButton("Add Alarm", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        checkPermission(Manifest.permission.SET_ALARM,ALARME_CODE);
+                        checkPermission(Manifest.permission.SET_ALARM, ALARM_CODE);
+
                         Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            intent.putExtra(AlarmClock.EXTRA_HOUR,time.getHours());
-                            intent.putExtra(AlarmClock.EXTRA_MINUTES,time.getMinutes());
-                            intent.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
-                        }
+                        intent.putExtra(AlarmClock.EXTRA_HOUR,time.getHours());
+                        intent.putExtra(AlarmClock.EXTRA_MINUTES,time.getMinutes());
+                        intent.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
                         startActivity(intent);
                     }
                 });
@@ -232,8 +197,6 @@ public class HomeActivity extends AppCompatActivity {
         //Creating dialog box
         AlertDialog alert = builder.create();
         alert.setView(edittext);
-
-        //Setting the title manually
         alert.show();
     }
 }

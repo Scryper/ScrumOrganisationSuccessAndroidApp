@@ -2,6 +2,7 @@ package be.scryper.sos;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +29,6 @@ public class SprintActivity extends AppCompatActivity {
     public static final String KEY_USER_STORY = "userStory";
 
     private String projectName;
-
     private ListView lvSimple;
     private TextView tvDescription;
     private TextView tvProjectName;
@@ -44,17 +44,12 @@ public class SprintActivity extends AppCompatActivity {
         tvProjectName = findViewById(R.id.tv_sprintActivity_ProjectTitle);
 
         projectName = getIntent().getExtras().getString(ProjectActivity.KEY_PROJECT);
-
         DtoSprint sprint = getIntent().getParcelableExtra(ProjectActivity.KEY_SPRINT);
 
         tvDescription.setText(sprint.getDescription());
         tvProjectName.setText(projectName);
 
-
         getSprintUserStory(sprint.getId());
-
-
-
     }
 
     private void getSprintUserStory(int id) {
@@ -69,26 +64,17 @@ public class SprintActivity extends AppCompatActivity {
 
 
                 } else {
-                    try {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                response.errorBody().string(),
-                                Toast.LENGTH_LONG
-                        ).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<DtoSprintUserStory>> call, Throwable t) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        t.toString(),
-                        Toast.LENGTH_LONG
-                ).show();
-
+                Log.e("Error", t.toString());
             }
         });
     }
@@ -107,29 +93,18 @@ public class SprintActivity extends AppCompatActivity {
                         listUserStories.add(usTmp);
                         initUserStoryList();
 
-
                     } else {
-                        try {
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    response.errorBody().string(),
-                                    Toast.LENGTH_LONG
-                            ).show();
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "Something went wrong",
+                                Toast.LENGTH_SHORT
+                        ).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<DtoUserStory> call, Throwable t) {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            t.toString(),
-                            Toast.LENGTH_LONG
-                    ).show();
-
+                    Log.e("Error", t.toString());
                 }
             });
         }

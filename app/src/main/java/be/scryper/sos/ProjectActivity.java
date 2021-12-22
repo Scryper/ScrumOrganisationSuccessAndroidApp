@@ -3,6 +3,7 @@ package be.scryper.sos;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import retrofit2.Response;
 public class ProjectActivity extends AppCompatActivity {
     public static final String KEY_SPRINT = "sprint";
     public static final String KEY_PROJECT = "projectName" ;
+
     private ListView lvSimple;
     private TextView tvName;
     private TextView tvDescription;
@@ -38,12 +40,9 @@ public class ProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
 
-
         DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
         getDeveloperProject(authenticateResult);
-
-
     }
 
     private void getDeveloperProject(DtoAuthenticateResult authenticateResult) {
@@ -63,26 +62,17 @@ public class ProjectActivity extends AppCompatActivity {
                         }
                     }
                 } else {
-                    try {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                response.errorBody().string(),
-                                Toast.LENGTH_LONG
-                        ).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<DtoDeveloperProject>> call, Throwable t) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        t.toString(),
-                        Toast.LENGTH_LONG
-                ).show();
-
+                Log.e("Error", t.toString());
             }
         });
     }
@@ -101,27 +91,17 @@ public class ProjectActivity extends AppCompatActivity {
                     projectName = project.getName();
 
                 } else {
-                    try {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                response.errorBody().string(),
-                                Toast.LENGTH_LONG
-                        ).show();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<DtoProject> call, Throwable t) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        t.toString(),
-                        Toast.LENGTH_LONG
-                ).show();
-
+                Log.e("Error", t.toString());
             }
         });
     }
@@ -156,30 +136,20 @@ public class ProjectActivity extends AppCompatActivity {
             public void onResponse(Call<List<DtoSprint>> call, Response<List<DtoSprint>> response) {
                 if (response.code() == 200) {
                     List<DtoSprint> sprints = response.body();
-
                     initSprintList(sprints);
-                } else {
-                    try {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                response.errorBody().string(),
-                                Toast.LENGTH_LONG
-                        ).show();
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                } else {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<DtoSprint>> call, Throwable t) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        t.toString(),
-                        Toast.LENGTH_LONG
-                ).show();
-
+                Log.e("Error", t.toString());
             }
         });
     }

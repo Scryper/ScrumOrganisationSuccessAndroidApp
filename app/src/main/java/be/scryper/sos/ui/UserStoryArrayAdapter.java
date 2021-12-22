@@ -1,8 +1,8 @@
 package be.scryper.sos.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +36,7 @@ public class UserStoryArrayAdapter extends ArrayAdapter<DtoUserStory> {
         return convertView;
     }
 
+    @SuppressLint("SetTextI18n")
     private void populateView(DtoUserStory userStory, View convertView) {
         TextView tvName = convertView.findViewById(R.id.tv_listItemUserStory_ph_name);
         TextView tvDescription = convertView.findViewById(R.id.tv_listItemUserStory_ph_description);
@@ -58,6 +59,6 @@ public class UserStoryArrayAdapter extends ArrayAdapter<DtoUserStory> {
 
         tvName.setText(userStory.getName());
         tvDescription.setText(userStory.getDescription());
-        tvNumberUS.setText("US "+String.valueOf(userStory.getPriority())+" : ");
+        tvNumberUS.setText("US "+userStory.getPriority()+" : ");
     }
 }

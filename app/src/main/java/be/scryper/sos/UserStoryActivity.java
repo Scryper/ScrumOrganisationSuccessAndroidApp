@@ -3,7 +3,6 @@ package be.scryper.sos;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -15,13 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -65,23 +60,9 @@ public class UserStoryActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             final EditText edittext = new EditText(getApplicationContext());
-            String titleText = "Add comment";
-
-            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLUE);
-
-            // Initialize a new spannable string builder instance
-            SpannableStringBuilder ssBuilder = new SpannableStringBuilder(titleText);
-
-            // Apply the text color span
-            ssBuilder.setSpan(
-                    foregroundColorSpan,
-                    0,
-                    titleText.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            );
 
             // Set the alert dialog title using spannable string builder
-            builder.setTitle(ssBuilder);
+            builder.setTitle(setTextColor("Add comment", Color.BLUE));
             //Setting message manually and performing action on button click
             builder.setMessage("Content :")
                     .setCancelable(true)
@@ -95,11 +76,10 @@ public class UserStoryActivity extends AppCompatActivity {
                             if(edittext.getText().toString().matches("")){
                                 Toast.makeText(
                                         getApplicationContext(),
-                                        "can't send empty comment",
-                                        Toast.LENGTH_LONG
+                                        "can not send empty comment",
+                                        Toast.LENGTH_SHORT
                                 ).show();
-
-                                return;
+                                dialog.cancel();
                             }
                             int idUserStory = userStory.getId();
                             int idUser = authenticateResult.getId();
@@ -108,45 +88,39 @@ public class UserStoryActivity extends AppCompatActivity {
                             String tmp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).format(postedAt);
                             Log.e("dotni",tmp);
                             DtoCreateComment newComment = new DtoCreateComment(idUserStory, idUser, tmp, edittext.getText().toString());
-                            Retrofit.getInstance().create(ICommentRepository.class)
-                                    .create(newComment).enqueue(new Callback<DtoComment>() {
-                                @Override
-                                public void onResponse(Call<DtoComment> call, Response<DtoComment> response) {
+                            addComment(newComment, idUserStory);
 
-                                    if (response.code() == 201) {
-                                        Toast.makeText(
-                                                getApplicationContext(),
-                                                "Comment added",
-                                                Toast.LENGTH_LONG
-                                        ).show();
-                                        getComments(idUserStory);
-                                    } else {
-                                        Log.e("dotni",String.valueOf(response.code()));
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<DtoComment> call, Throwable t) {
-                                    Toast.makeText(
-                                            getApplicationContext(),
-                                            t.toString(),
-                                            Toast.LENGTH_LONG
-                                    ).show();
-
-                                }
-                            });
                         }
                     });
-
-
             //Creating dialog box
             AlertDialog alert = builder.create();
             alert.setView(edittext);
-
-            //Setting the title manually
             alert.show();
 
+        });
+    }
 
+    private void addComment(DtoCreateComment newComment, int idUserStory) {
+        Retrofit.getInstance().create(ICommentRepository.class)
+                .create(newComment).enqueue(new Callback<DtoComment>() {
+            @Override
+            public void onResponse(Call<DtoComment> call, Response<DtoComment> response) {
+
+                if (response.code() == 201) {
+                    getComments(idUserStory);
+                } else {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DtoComment> call, Throwable t) {
+                Log.e("Error", t.toString());
+            }
         });
     }
 
@@ -157,30 +131,20 @@ public class UserStoryActivity extends AppCompatActivity {
             public void onResponse(Call<List<DtoComment>> call, Response<List<DtoComment>> response) {
                 if (response.code() == 200) {
                     List<DtoComment> comments = response.body();
-
                     initCommentList(comments);
-                } else {
-                    try {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                response.errorBody().string(),
-                                Toast.LENGTH_LONG
-                        ).show();
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                } else {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<DtoComment>> call, Throwable t) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        t.toString(),
-                        Toast.LENGTH_LONG
-                ).show();
-
+                Log.e("Error", t.toString());
             }
         });
     }
@@ -199,25 +163,12 @@ public class UserStoryActivity extends AppCompatActivity {
         lvSimple.setOnItemClickListener((adapterView, view, i, l) -> {
             //Uncomment the below code to Set the message and title from the strings.xml file
             final EditText edittext = new EditText(getApplicationContext());
-            String titleText = "Update comment";
 
-            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLUE);
-
-            // Initialize a new spannable string builder instance
-            SpannableStringBuilder ssBuilder = new SpannableStringBuilder(titleText);
-
-            // Apply the text color span
-            ssBuilder.setSpan(
-                    foregroundColorSpan,
-                    0,
-                    titleText.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            );
             DtoComment comment = (DtoComment) adapterView.getItemAtPosition(i);
 
-
             // Set the alert dialog title using spannable string builder
-            builder.setTitle(ssBuilder);
+            builder.setTitle(setTextColor("Update comment", Color.BLUE));
+
             //Setting message manually and performing action on button click
             builder.setMessage("Content :")
                     .setCancelable(true)
@@ -233,22 +184,36 @@ public class UserStoryActivity extends AppCompatActivity {
                             dialog.cancel();
                         }
                     })
-            .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                deleteComment(comment.getId(), comment.getIdUserStory());
-                dialog.cancel();
-            }
-            });
-
+                    .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            deleteComment(comment.getId(), comment.getIdUserStory());
+                            dialog.cancel();
+                        }
+                    });
 
             //Creating dialog box
             AlertDialog alert = builder.create();
             alert.setView(edittext);
             edittext.setText(comment.getContent());
-
-            //Setting the title manually
             alert.show();
         });
+    }
+
+    private SpannableStringBuilder setTextColor(String content, int color) {
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(color);
+
+        // Initialize a new spannable string builder instance
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(content);
+
+        // Apply the text color span
+        ssBuilder.setSpan(
+                foregroundColorSpan,
+                0,
+                content.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        return ssBuilder;
     }
 
     private void deleteComment(int commentId, int idUserStory) {
@@ -262,8 +227,8 @@ public class UserStoryActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(
                             getApplicationContext(),
-                            "error",
-                            Toast.LENGTH_LONG
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
                     ).show();
 
                 }
@@ -271,12 +236,7 @@ public class UserStoryActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        t.toString(),
-                        Toast.LENGTH_LONG
-                ).show();
-
+                Log.e("Error", t.toString());
             }
         });
     }
@@ -292,8 +252,8 @@ public class UserStoryActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(
                             getApplicationContext(),
-                            "error",
-                            Toast.LENGTH_LONG
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
                     ).show();
 
                 }
@@ -301,12 +261,7 @@ public class UserStoryActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        t.toString(),
-                        Toast.LENGTH_LONG
-                ).show();
-
+                Log.e("Error", t.toString());
             }
         });
     }

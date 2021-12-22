@@ -1,7 +1,7 @@
 package be.scryper.sos.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import be.scryper.sos.R;
 import be.scryper.sos.dto.DtoMeeting;
 
 public class TodayMeetingArrayAdapter extends ArrayAdapter<DtoMeeting> {
-
 
     public TodayMeetingArrayAdapter(@NonNull Context context, @NonNull List<DtoMeeting> objects) {
         super(context, 0, objects);
@@ -38,11 +36,10 @@ public class TodayMeetingArrayAdapter extends ArrayAdapter<DtoMeeting> {
         return convertView;
     }
 
-
+    @SuppressLint("SimpleDateFormat")
     private void populateView(DtoMeeting meeting, View convertView) {
         TextView tvDate = convertView.findViewById(R.id.tv_listviewTodayMeeting_ph_date);
         TextView tvDescription = convertView.findViewById(R.id.tv_listviewTodayMeeting_ph_description);
-
 
         tvDate.setText(new SimpleDateFormat("HH:mm").format(meeting.getSchedule()).toString());
         tvDescription.setText(meeting.getDescription());
