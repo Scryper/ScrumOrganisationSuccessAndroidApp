@@ -56,7 +56,6 @@ public class ProjectActivity extends AppCompatActivity {
                     List<DtoDeveloperProject> developerProjects = response.body();
                     for (DtoDeveloperProject developerProject :
                             developerProjects) {
-                        // TODO : check if true is the value for accepted in a project
                         if (!developerProject.isAppliance()) {
                             getProject(developerProject.getIdProject());
                             getSprints(developerProject.getIdProject());
