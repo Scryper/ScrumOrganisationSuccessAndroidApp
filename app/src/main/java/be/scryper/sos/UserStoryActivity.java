@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -18,9 +19,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoComment;
@@ -38,7 +42,7 @@ public class UserStoryActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvDescription;
     private Button btnAddComment;
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,9 +104,9 @@ public class UserStoryActivity extends AppCompatActivity {
                             int idUserStory = userStory.getId();
                             int idUser = authenticateResult.getId();
 
-                            LocalDateTime postedAt = LocalDateTime.now();
-                            postedAt = postedAt.truncatedTo(ChronoUnit.SECONDS);
-                            String tmp = postedAt.toString();
+                            Date postedAt = new Date();
+                            String tmp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).format(postedAt);
+                            Log.e("dotni",tmp);
                             DtoCreateComment newComment = new DtoCreateComment(idUserStory, idUser, tmp, edittext.getText().toString());
                             Retrofit.getInstance().create(ICommentRepository.class)
                                     .create(newComment).enqueue(new Callback<DtoComment>() {
@@ -117,12 +121,7 @@ public class UserStoryActivity extends AppCompatActivity {
                                         ).show();
                                         getComments(idUserStory);
                                     } else {
-                                        Toast.makeText(
-                                                getApplicationContext(),
-                                                "error",
-                                                Toast.LENGTH_LONG
-                                        ).show();
-
+                                        Log.e("dotni",String.valueOf(response.code()));
                                     }
                                 }
 
