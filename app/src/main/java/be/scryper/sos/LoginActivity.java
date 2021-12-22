@@ -4,13 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
 
 import be.scryper.sos.dto.DtoAuthenticateRequest;
 import be.scryper.sos.dto.DtoAuthenticateResult;
@@ -22,8 +21,8 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     public static final String KEY_LOGIN = "authenticateResult";
-
-    private TextView mail;
+    private String[] mails = {"florian.mazzeo@gmail.com","damsover@gmail.com","martin.maes100.000@gmail.com"};
+    private AutoCompleteTextView mail;
     private TextView password;
 
     @Override
@@ -35,9 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.et_mainActivity_password);
         Button btnConnect = findViewById(R.id.btn_mainActivity_submit);
 
-        //data for the login
-        mail.setText("la199788@student.helha.be");
-        password.setText("myneck");
+        //create the arrayAdapter for the emails
+        ArrayAdapter<String> adapterMails = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,mails);
+
+        //autofill for the emails
+        mail.setAdapter(adapterMails);
+
+        // Set the minimum number of characters, to show suggestions
+        mail.setThreshold(0);
 
         btnConnect.setOnClickListener(view -> {
             //function to try to log in the user
