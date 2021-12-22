@@ -3,9 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_meeting.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_profile.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_project.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_sprint.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_user_story.xml" value="0.33" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_welcome.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/comment_list_item.xml" value="0.2884963768115942" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/listview_meeting.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/listview_today_meeting.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/sprint_list_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/flora/AndroidStudioProjects/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/userstory_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/flora/Desktop/TI/Android/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_agenda.xml" value="0.28306159420289856" />
         <entry key="..\:/Users/flora/Desktop/TI/Android/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_comment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/flora/Desktop/TI/Android/ScrumOrganisationSuccessAndroidApp/app/src/main/res/layout/activity_home.xml" value="0.2957427536231884" />

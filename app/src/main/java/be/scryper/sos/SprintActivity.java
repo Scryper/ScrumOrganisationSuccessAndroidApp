@@ -41,7 +41,7 @@ public class SprintActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sprint);
         lvSimple = findViewById(R.id.lv_sprintActivity_simpleList);
         tvDescription = findViewById(R.id.tv_sprintActivity_ph_description);
-        tvProjectName = findViewById(R.id.tv_ActivitySprint_ProjectTitle);
+        tvProjectName = findViewById(R.id.tv_sprintActivity_ProjectTitle);
 
         projectName = getIntent().getExtras().getString(ProjectActivity.KEY_PROJECT);
 

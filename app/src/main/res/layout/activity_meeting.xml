@@ -9,7 +9,7 @@
     tools:context=".LoginActivity">
 
     <TextView
-        android:id="@+id/tv_MeetingActivity_title"
+        android:id="@+id/tv_meetingActivity_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -21,18 +21,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/lv_MeetingActivity_meetings"
+        android:id="@+id/lv_meetingActivity_meetings"
         android:layout_width="409dp"
         android:layout_height="371dp"
         android:layout_marginTop="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_MeetingActivity_back"
+        app:layout_constraintBottom_toTopOf="@+id/btn_meetingActivity_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_MeetingActivity_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_meetingActivity_title"
         app:layout_constraintVertical_bias="0.138" />
 
     <Button
-        android:id="@+id/btn_MeetingActivity_back"
+        android:id="@+id/btn_meetingActivity_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="92dp"

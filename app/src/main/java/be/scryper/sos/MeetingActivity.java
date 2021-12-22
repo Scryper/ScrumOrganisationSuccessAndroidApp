@@ -59,10 +59,10 @@ public class MeetingActivity extends AppCompatActivity {
     }
 
     public void initUI(){
-        btnBack = findViewById(R.id.btn_MeetingActivity_back);
-        tvDate = findViewById(R.id.tv_meeting_date);
-        tvDescription = findViewById(R.id.tv_meeting_description);
-        lvMeetings = findViewById(R.id.lv_MeetingActivity_meetings);
+        btnBack = findViewById(R.id.btn_meetingActivity_back);
+        tvDate = findViewById(R.id.tv_listViewMeeting_ph_date);
+        tvDescription = findViewById(R.id.tv_listViewMeeting_ph_description);
+        lvMeetings = findViewById(R.id.lv_meetingActivity_meetings);
 
         adapter = new MeetingArrayAdapter(
                 this,

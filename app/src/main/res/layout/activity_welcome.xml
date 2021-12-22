@@ -6,4 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity">
 
+    <Button
+        android:id="@+id/btn_welcomeActivity_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="39dp"
+        android:text="Log in"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_welcomeActivity_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:text="What is ScrumOrganisationSuccess ? "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_welcomeActivity_login" />
+
+    <TextView
+        android:id="@+id/tv_WelcomeActivity_content1"
+        android:layout_width="376dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:text="Developed by our team ScrumOrganisationSuccess (SOS) is a useful opensource project which allows your enterprise to organise your sprints, meetings or user stories. Everything in this website reflects the SCRUM agile method. Organise your project with ease, a calendar is at your disposal to have an overview of your upcoming meetings. Organise your audio and/or video calls on SOS ! Thanks to Jitsi API, your calls are made easy !"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_welcomeActivity_title1" />
+
+    <TextView
+        android:id="@+id/tv_welcomeActivity_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="40dp"
+        android:text="The SCRUM method ? "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_WelcomeActivity_content1" />
+
+    <TextView
+        android:id="@+id/tv_welcomeActivity_content2"
+        android:layout_width="375dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:text="The SCRUM method is an agile method which allows your development team to work by iterative sprints. Each sprint allows you to show a functional version of the project to your client. These working outputs allows the product owner to have a better overview of how is going the project development and to conduct the scrum master and the developers in the best possible way to be as close as possible to what he has imagined."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_welcomeActivity_title2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
