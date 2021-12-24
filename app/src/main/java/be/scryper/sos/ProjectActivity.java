@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.util.List;
 
 import be.scryper.sos.dto.DtoAuthenticateResult;

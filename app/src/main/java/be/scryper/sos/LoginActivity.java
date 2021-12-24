@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import be.scryper.sos.dto.DtoAuthenticateRequest;
 import be.scryper.sos.dto.DtoAuthenticateResult;
+import be.scryper.sos.helpers.SessionManager;
 import be.scryper.sos.infrastructure.Retrofit;
 import be.scryper.sos.infrastructure.IUserRepository;
 import retrofit2.Call;
@@ -25,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mail;
     private TextView password;
 
+    private SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         mail = findViewById(R.id.et_mainActivity_mail);
         password = findViewById(R.id.et_mainActivity_password);
         Button btnConnect = findViewById(R.id.btn_mainActivity_submit);
+
+        sessionManager = new SessionManager(this);
 
         //create the arrayAdapter for the emails
         ArrayAdapter<String> adapterMails = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,mails);
@@ -58,6 +63,11 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<DtoAuthenticateResult> call, Response<DtoAuthenticateResult> response) {
 
                         if(response.code() == 200) {
+
+                            sessionManager.saveAuthToken(response.body().getToken());
+
+                            Log.e("dotni", sessionManager.fetchAuthToken());
+
                             //if the user informations are OK, then the user goes to HomeActivity
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             DtoAuthenticateResult authenticateResult = response.body();

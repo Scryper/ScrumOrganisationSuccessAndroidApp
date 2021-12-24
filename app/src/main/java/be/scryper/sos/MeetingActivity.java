@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,7 +69,7 @@ public class MeetingActivity extends AppCompatActivity {
     //get the whole list of meetings
     private void getMeetings(int idUser) {
         Retrofit.getInstance().create(IMeetingRepository.class)
-                .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
+                .getByIdUser(idUser,"").enqueue(new Callback<List<DtoInputMeeting>>() {
             @Override
             public void onResponse(Call<List<DtoInputMeeting>> call, Response<List<DtoInputMeeting>> response) {
                 if(response.code() == 200){

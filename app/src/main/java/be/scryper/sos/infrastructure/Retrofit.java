@@ -1,5 +1,8 @@
 package be.scryper.sos.infrastructure;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.security.cert.CertificateException;
 
 import javax.net.ssl.HostnameVerifier;
@@ -9,6 +12,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import be.scryper.sos.helpers.JWTInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,6 +22,7 @@ public class Retrofit {
     //real phone
     //private static final String BASE_URL = "http://10.2.32.28:5000/api/";
     private static retrofit2.Retrofit instance;
+
 
     public static retrofit2.Retrofit getInstance() {
         if(instance == null) {
