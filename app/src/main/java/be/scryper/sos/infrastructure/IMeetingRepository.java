@@ -11,5 +11,5 @@ import retrofit2.http.Path;
 public interface IMeetingRepository {
     //Get requests
     @GET("meetings/byUser/{idUser}")
-    Call<List<DtoInputMeeting>> getByIdUser(@Path("idUser") int idUser,@Header("Authorization")String token );
+    Call<List<DtoInputMeeting>> getByIdUser(@Path("idUser") int idUser, @Header("Authorization")String token );
 }

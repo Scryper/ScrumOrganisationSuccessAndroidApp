@@ -16,6 +16,7 @@ import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoDeveloperProject;
 import be.scryper.sos.dto.DtoProject;
 import be.scryper.sos.dto.DtoSprint;
+import be.scryper.sos.helpers.SessionManager;
 import be.scryper.sos.infrastructure.IProjectRepository;
 import be.scryper.sos.infrastructure.ISprintRepository;
 import be.scryper.sos.infrastructure.IUserProjectRepository;
@@ -33,12 +34,13 @@ public class ProjectActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvDescription;
     private String projectName;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
-
+        sessionManager = new SessionManager(this);
         //get the intent from the login
         DtoAuthenticateResult authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
 
@@ -49,7 +51,7 @@ public class ProjectActivity extends AppCompatActivity {
     //get the id of the project of the user if there is one
     private void getDeveloperProject(DtoAuthenticateResult authenticateResult) {
         Retrofit.getInstance().create(IUserProjectRepository.class)
-                .getByIdDeveloper(authenticateResult.getId()).enqueue(new Callback<List<DtoDeveloperProject>>() {
+                .getByIdDeveloper(authenticateResult.getId(), "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<List<DtoDeveloperProject>>() {
             @Override
             public void onResponse(Call<List<DtoDeveloperProject>> call, Response<List<DtoDeveloperProject>> response) {
 
@@ -85,7 +87,7 @@ public class ProjectActivity extends AppCompatActivity {
     //get the information of the project
     private void getProject(int idProject) {
         Retrofit.getInstance().create(IProjectRepository.class)
-                .getById(idProject).enqueue(new Callback<DtoProject>() {
+                .getById(idProject, "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<DtoProject>() {
             @Override
             public void onResponse(Call<DtoProject> call, Response<DtoProject> response) {
                 if (response.code() == 200) {
@@ -140,7 +142,7 @@ public class ProjectActivity extends AppCompatActivity {
     private void getSprints(int idProject) {
 
         Retrofit.getInstance().create(ISprintRepository.class)
-                .getByIdProject(idProject).enqueue(new Callback<List<DtoSprint>>() {
+                .getByIdProject(idProject, "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<List<DtoSprint>>() {
             @Override
             public void onResponse(Call<List<DtoSprint>> call, Response<List<DtoSprint>> response) {
                 if (response.code() == 200) {

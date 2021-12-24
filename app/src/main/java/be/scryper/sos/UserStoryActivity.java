@@ -25,6 +25,7 @@ import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoComment;
 import be.scryper.sos.dto.DtoCreateComment;
 import be.scryper.sos.dto.DtoUserStory;
+import be.scryper.sos.helpers.SessionManager;
 import be.scryper.sos.infrastructure.ICommentRepository;
 import be.scryper.sos.infrastructure.Retrofit;
 import be.scryper.sos.ui.CommentArrayAdapter;
@@ -37,12 +38,13 @@ public class UserStoryActivity extends AppCompatActivity {
     private TextView tvName;
     private TextView tvDescription;
     private Button btnAddComment;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_story);
-
+        sessionManager = new SessionManager(this);
         tvName = findViewById(R.id.tv_userStoryActivity_ph_name);
         tvDescription = findViewById(R.id.tv_userStoryActivity_ph_description);
         btnAddComment = findViewById(R.id.btn_userStoryActivity_addComment);
@@ -106,7 +108,7 @@ public class UserStoryActivity extends AppCompatActivity {
     //add a comment
     private void addComment(DtoCreateComment newComment, int idUserStory) {
         Retrofit.getInstance().create(ICommentRepository.class)
-                .create(newComment).enqueue(new Callback<DtoComment>() {
+                .create(newComment, "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<DtoComment>() {
             @Override
             public void onResponse(Call<DtoComment> call, Response<DtoComment> response) {
 
@@ -131,7 +133,7 @@ public class UserStoryActivity extends AppCompatActivity {
     //get the list of comments
     private void getComments(int id) {
         Retrofit.getInstance().create(ICommentRepository.class)
-                .getByIdUserStory(id).enqueue(new Callback<List<DtoComment>>() {
+                .getByIdUserStory(id, "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<List<DtoComment>>() {
             @Override
             public void onResponse(Call<List<DtoComment>> call, Response<List<DtoComment>> response) {
                 if (response.code() == 200) {
@@ -232,7 +234,7 @@ public class UserStoryActivity extends AppCompatActivity {
     //delete a comment
     private void deleteComment(int commentId, int idUserStory) {
         Retrofit.getInstance().create(ICommentRepository.class)
-                .delete(commentId).enqueue(new Callback<Void>() {
+                .delete(commentId, "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
@@ -258,7 +260,7 @@ public class UserStoryActivity extends AppCompatActivity {
     //update a comment
     private void updateComment(int id, DtoCreateComment updatedComment) {
         Retrofit.getInstance().create(ICommentRepository.class)
-                .updateContent(id, updatedComment).enqueue(new Callback<Void>() {
+                .updateContent(id, updatedComment, "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {

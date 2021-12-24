@@ -16,6 +16,7 @@ import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoSprint;
 import be.scryper.sos.dto.DtoSprintUserStory;
 import be.scryper.sos.dto.DtoUserStory;
+import be.scryper.sos.helpers.SessionManager;
 import be.scryper.sos.infrastructure.ISprintUserStoryRepository;
 import be.scryper.sos.infrastructure.IUserStoryRepository;
 import be.scryper.sos.infrastructure.Retrofit;
@@ -33,11 +34,13 @@ public class SprintActivity extends AppCompatActivity {
     private TextView tvProjectName;
 
     static List<DtoUserStory> listUserStories = new ArrayList<>();
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprint);
+        sessionManager = new SessionManager(this);
         lvSimple = findViewById(R.id.lv_sprintActivity_simpleList);
         tvDescription = findViewById(R.id.tv_sprintActivity_ph_description);
         tvProjectName = findViewById(R.id.tv_sprintActivity_ph_ProjectTitle);
@@ -55,7 +58,7 @@ public class SprintActivity extends AppCompatActivity {
     //get the list of user stories linked to the sprint
     private void getSprintUserStory(int id) {
         Retrofit.getInstance().create(ISprintUserStoryRepository.class)
-                .getByIdSprint(id).enqueue(new Callback<List<DtoSprintUserStory>>() {
+                .getByIdSprint(id, "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<List<DtoSprintUserStory>>() {
             @Override
             public void onResponse(Call<List<DtoSprintUserStory>> call, Response<List<DtoSprintUserStory>> response) {
                 if (response.code() == 200) {
@@ -86,7 +89,7 @@ public class SprintActivity extends AppCompatActivity {
              sprintUserStories) {
 
             Retrofit.getInstance().create(IUserStoryRepository.class)
-                    .getById(sprintUserStory.getIdUserStory()).enqueue(new Callback<DtoUserStory>() {
+                    .getById(sprintUserStory.getIdUserStory(), "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<DtoUserStory>() {
                 @Override
                 public void onResponse(Call<DtoUserStory> call, Response<DtoUserStory> response) {
                     if (response.code() == 200) {
