@@ -1,7 +1,6 @@
 package be.scryper.sos;
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -13,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.AlarmClock;
 import android.text.SpannableStringBuilder;
@@ -37,6 +35,7 @@ import java.util.Locale;
 import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoInputMeeting;
 import be.scryper.sos.dto.DtoMeeting;
+import be.scryper.sos.helpers.SessionManager;
 import be.scryper.sos.infrastructure.IMeetingRepository;
 import be.scryper.sos.infrastructure.Retrofit;
 import be.scryper.sos.ui.TodayMeetingArrayAdapter;
@@ -52,10 +51,13 @@ public class HomeActivity extends AppCompatActivity {
     private DtoAuthenticateResult authenticateResult;
     private TodayMeetingArrayAdapter adapter;
 
+    private SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        sessionManager = new SessionManager(this);
 
         //get intent from login activity
         authenticateResult = getIntent().getParcelableExtra(LoginActivity.KEY_LOGIN);
@@ -114,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
     private void getMeetings(int idUser) {
 
         Retrofit.getInstance().create(IMeetingRepository.class)
-                .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
+                .getByIdUser(idUser,"Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<List<DtoInputMeeting>>() {
             @Override
             public void onResponse(Call<List<DtoInputMeeting>> call, Response<List<DtoInputMeeting>> response) {
                 if(response.code() == 200){

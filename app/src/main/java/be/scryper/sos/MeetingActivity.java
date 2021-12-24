@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +18,7 @@ import java.util.Locale;
 import be.scryper.sos.dto.DtoAuthenticateResult;
 import be.scryper.sos.dto.DtoInputMeeting;
 import be.scryper.sos.dto.DtoMeeting;
+import be.scryper.sos.helpers.SessionManager;
 import be.scryper.sos.infrastructure.IMeetingRepository;
 import be.scryper.sos.infrastructure.Retrofit;
 import be.scryper.sos.ui.MeetingArrayAdapter;
@@ -69,8 +69,9 @@ public class MeetingActivity extends AppCompatActivity {
 
     //get the whole list of meetings
     private void getMeetings(int idUser) {
+        SessionManager sessionManager = new SessionManager(this);
         Retrofit.getInstance().create(IMeetingRepository.class)
-                .getByIdUser(idUser).enqueue(new Callback<List<DtoInputMeeting>>() {
+                .getByIdUser(idUser,"Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<List<DtoInputMeeting>>() {
             @Override
             public void onResponse(Call<List<DtoInputMeeting>> call, Response<List<DtoInputMeeting>> response) {
                 if(response.code() == 200){

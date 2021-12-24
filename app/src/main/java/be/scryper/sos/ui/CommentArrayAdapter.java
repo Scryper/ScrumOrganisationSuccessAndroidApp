@@ -17,6 +17,7 @@ import java.util.List;
 import be.scryper.sos.R;
 import be.scryper.sos.dto.DtoComment;
 import be.scryper.sos.dto.DtoUser;
+import be.scryper.sos.helpers.SessionManager;
 import be.scryper.sos.infrastructure.IUserRepository;
 import be.scryper.sos.infrastructure.Retrofit;
 import retrofit2.Call;
@@ -54,8 +55,9 @@ public class CommentArrayAdapter extends ArrayAdapter<DtoComment> {
         tvDate.setText(dates[2]+"-"+dates[1]+"-"+dates[0]);
         tvTime.setText(datetimes[1]);
 
+        SessionManager sessionManager = new SessionManager(this.getContext());
         Retrofit.getInstance().create(IUserRepository.class)
-                .getById(comment.getIdUser()).enqueue(new Callback<DtoUser>() {
+                .getById(comment.getIdUser(), "Bearer "+sessionManager.fetchAuthToken()).enqueue(new Callback<DtoUser>() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<DtoUser> call, Response<DtoUser> response) {
